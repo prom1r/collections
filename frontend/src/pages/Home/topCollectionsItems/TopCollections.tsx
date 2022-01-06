@@ -20,7 +20,7 @@ export const TopCollections = (props) => {
         getTopCollections().then((result) => {
             setCollections(result)
         })
-    })
+    },[])
     if (!collections || collections.length === 0) return <p>Нет данных.</p>
     return (
         <Box sx={{

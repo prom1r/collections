@@ -6,8 +6,15 @@ const getTopCollections = async () => {
     return collection;
 }
 
+
+const getMyCollections = async (userId) => {
+    const myCollection = await Collection.find({userId: userId});
+    return myCollection;
+}
+
+
 const createCollection = () => {
 
 }
 
-module.exports = {getTopCollections}
+module.exports = {getTopCollections,getMyCollections}

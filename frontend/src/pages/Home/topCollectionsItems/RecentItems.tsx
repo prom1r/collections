@@ -25,7 +25,8 @@ export const RecentItems: FC<TopItemsProps> = (props) => {
         getTopItem().then((result) => {
             setItem(result)
         })
-    })
+    }, []);
+
     if (!items || items.length === 0) return <p>Нет данных.</p>
     return (
         <Box sx={{

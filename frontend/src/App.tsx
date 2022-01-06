@@ -2,20 +2,20 @@ import React from 'react';
 import './App.css';
 import HomePage from "./pages/Home/HomePage";
 import Navbar from "./components/navigation/Navbar";
-import {Routes, Route, Link} from "react-router-dom";
-import Collection from "./pages/Collection";
-import Item from "./pages/Item";
+import { Routes, Route, Link, BrowserRouter } from "react-router-dom";
+import { MyCollectionsPage } from "./pages/MyCollections/MyCollectionsPage";
 
 
 function App() {
     return (
-        <div className="App">
-            <Navbar/>
-            <Routes>
-                <Route path="/" element={<HomePage/>}/>
-                <Route path="collection" element={<Collection/>}/>
-                <Route path="item" element={<Item/>}/>
-            </Routes>
+        <div className="app">
+            <BrowserRouter>
+                <Navbar/>
+                <Routes>
+                    <Route path="/collections/my" element={<MyCollectionsPage/>}/>
+                    <Route path="/" element={<HomePage/>}/>
+                </Routes>
+            </BrowserRouter>
         </div>
     );
 }

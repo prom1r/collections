@@ -10,7 +10,8 @@ const collectionsSchema = new mongoose.Schema({
     id:mongoose.ObjectId,
     title: String,
     srcImg: String,
-    itemsCount: Number
+    itemsCount: Number,
+    userId:String
 })
 
 const Collection = mongoose.model('collections', collectionsSchema);

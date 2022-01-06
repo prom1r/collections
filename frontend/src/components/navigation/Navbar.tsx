@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import SearchItem from "./SearchItem";
 import AuthenticationButton from "./AuthenticationButton";
 import {Link} from "react-router-dom";
+import Button from '@mui/material/Button';
 
 
 export default function Navbar() {
@@ -15,6 +16,7 @@ export default function Navbar() {
                 <Toolbar>
                     <Typography align="left" width="auto" variant="h5" component="div" sx={{flexGrow: 1}}>
                         <Link to="/">MY COLLECTIONS</Link>
+                        <Link to="/collections/my"> <Button variant="contained">My Collections</Button></Link>
                     </Typography>
                     <AuthenticationButton/>
                 </Toolbar>
