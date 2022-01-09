@@ -11,7 +11,9 @@ const collectionsSchema = new mongoose.Schema({
     title: String,
     srcImg: String,
     itemsCount: Number,
-    userId:String
+    userId:String,
+    category:String,
+    description:String
 })
 
 const Collection = mongoose.model('collections', collectionsSchema);

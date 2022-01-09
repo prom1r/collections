@@ -11,7 +11,8 @@ const Item = styled(Paper)(({theme}) => ({
     padding: theme.spacing(1),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-    width:"250px"
+    width:"250px",
+    boxShadow:"0px 0px 0px 0px"
 }));
 
 export const TopCollections = (props) => {
@@ -28,8 +29,7 @@ export const TopCollections = (props) => {
             height: 500,
             backgroundColor: 'grow',
             marginLeft: '100px',
-            marginTop:'50px'
-
+            marginTop:'50px',
         }}
         >
         <Stack direction="row" spacing={2}>

@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import { Collection } from '../models/collections';
 import Typography from '@mui/material/Typography';
+import Chip from '@mui/material/Chip';
 
 
 interface CardCollectionProps {
@@ -12,22 +12,42 @@ interface CardCollectionProps {
 }
 
 export const CardCollection: FC<CardCollectionProps> = (props) => {
-    const { id, title, srcImg, itemsCount } = props.collection;
+    const { _id, title, srcImg, itemsCount, category,description} = props.collection;
     return (
-        <Card sx={{ maxWidth: 345 }}>
-            <CardHeader
-                title={title}
-            />
+        <Card sx={{
+            maxWidth: 345,
+            boxShadow: 10,
+        }}>
+            <Typography gutterBottom variant="h5" component="div" sx={{
+                paddingTop: '10px',
+            }}>
+                {title}
+            </Typography>
             <CardMedia
                 component="img"
-                height="194"
+                alt="green iguana"
+                height="140"
                 image={srcImg}
-                alt={title}
             />
             <CardContent>
                 <Typography variant="body2" color="text.secondary">
-                    {itemsCount} ITEMS
+                    {description}
                 </Typography>
+            </CardContent>
+            <CardContent sx={{
+                paddingTop: '0px',
+                paddingBottom: '0px',
+                display:'flex',
+                flexDirection:'row',
+                justifyContent:'space-around'
+
+            }}>
+                <Typography fontSize='1.3em' sx={{
+                    verticalAlign:'middle'
+                }}>
+                    {itemsCount} items
+                </Typography>
+                <Chip label={category} color="success" variant="outlined"/>
             </CardContent>
         </Card>
     );

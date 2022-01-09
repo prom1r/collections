@@ -1,6 +1,8 @@
 export interface Collection {
-    id: number;
+    _id: string;
     title: string;
     srcImg: string;
     itemsCount: number;
+    category:string,
+    description:string
 }
