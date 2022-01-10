@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { FormikControl } from "../../../components/FormikControl";
 import { Formik, Form } from 'formik';
@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import { useAuth0 } from "@auth0/auth0-react";
 import { postNewCollections } from "../../../api/collectionService";
 import { Dropzone } from "../../../components/Dropzone";
+import { Collection } from "../../../models/collections";
 
 interface FormNewCollectionsProps {
     onCreate: (collection) => void;
@@ -13,6 +14,8 @@ interface FormNewCollectionsProps {
 
 export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => {
     const { getAccessTokenSilently } = useAuth0();
+    const [url, setUrl] = useState(null);
+
 
     const dropdownOptions = [
         { key: 'Category', value: '' },
@@ -25,7 +28,7 @@ export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => 
     const initialValues = {
         title: '',
         description: '',
-        category: '',
+        category: ''
     }
 
     const validationSchema = Yup.object({
@@ -35,11 +38,17 @@ export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => 
         category: Yup.string().required('Required')
     })
 
-    const onSubmit = async (values) => {
+    const handleFileUpload = (url) => {
+        setUrl(url);
+    }
+
+    const onSubmit = async (values: Collection) => {
         try {
             const token = await getAccessTokenSilently();
-            await postNewCollections(token, values);
-            props.onCreate(values);
+            values.srcImg = url;
+            const item = await postNewCollections(token, values);
+            // console.log(item)
+            props.onCreate(item);
         } catch (e) {
             console.error(e);
         }
@@ -67,7 +76,7 @@ export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => 
                         options={dropdownOptions}
                         style='form-control'
                     />
-                    <Dropzone/>
+                    <Dropzone onUpload={handleFileUpload}/>
                     <FormikControl
                         control='textarea'
                         label='Description:'

@@ -15,9 +15,10 @@ export const getMyCollections = async (token) => {
 }
 
 export const postNewCollections = async (token, values) => {
-    await axios.post(`${BACKEND_URL}/collections/my`, { values }, {
+   const response = await axios.post(`${BACKEND_URL}/collections/my`, { values }, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
     })
+    return response.data;
 }

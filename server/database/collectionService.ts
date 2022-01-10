@@ -13,6 +13,8 @@ const getMyCollections = async (userId) => {
 const postCollections = async (item) =>{
     const newCollection = new Collection(item);
     await newCollection.save();
+    const lastItem = await Collection.find().lean();
+    return lastItem
 }
 
 module.exports = { getTopCollections, getMyCollections,postCollections }

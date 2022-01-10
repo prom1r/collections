@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import { FormNewCollections } from "../formNewCardCollections/FormNewCollections";
 import '../formNewCardCollections/formik.css';
 
+
 interface NewCardCollectionsProps {
     onCreate: (collection) => void;
 }
@@ -15,6 +16,11 @@ export const NewCardCollection: React.FC<NewCardCollectionsProps> = (props) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const handleCreate = (item) => {
+        handleClose();
+        props.onCreate(item);
+    }
 
     return (
         <div>
@@ -55,7 +61,7 @@ export const NewCardCollection: React.FC<NewCardCollectionsProps> = (props) => {
                         p: 4,
                     }}>
                         <div className='formik'>
-                            <FormNewCollections onCreate={props.onCreate} />
+                            <FormNewCollections onCreate={handleCreate}/>
                         </div>
                     </Box>
                 </Fade>

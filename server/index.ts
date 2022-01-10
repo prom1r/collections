@@ -8,7 +8,10 @@ const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 const axios = require('axios');
 const bodyParser = require('body-parser');
-
+const uploadAzure = require('./blob/blob.ts');
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 app.use(cors());
 
@@ -41,11 +44,12 @@ app.get('/collections/top', async (req, res) => {
     res.json(collections);
 })
 
-app.post('/collections/my',checkJwt, async (req, res) => {
+app.post('/collections/my', checkJwt, async (req, res) => {
     const newCollections = req.body.values;
     const userId = req.user.sub;
     newCollections.userId = userId;
-    await postCollections(newCollections);
+    const response = await postCollections(newCollections);
+    res.json(response[response.length - 1]);
 });
 
 app.get('/items/top', (req, res) => {
@@ -74,6 +78,12 @@ app.get('/items/top', (req, res) => {
     res.json(temp);
 
 })
+
+app.post('/upload', upload.single('image'), async (req, res) => {
+    const url = await uploadAzure(req.file);
+    res.json({ url });
+});
+
 
 app.listen(port, () => {
     console.log('start server');

@@ -15,11 +15,12 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export const MyCollections = (props) => {
-    const [myCollections, setMyCollections] = useState(null)
+    const [myCollections, setMyCollections] = useState([])
     const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
-    const onCreate = (newCollection) => {
-
+    const handleCreate = (newCollection) => {
+        myCollections.splice(0, 0, newCollection);
+        console.log(newCollection)
     }
 
     useEffect(() => {
@@ -37,7 +38,7 @@ export const MyCollections = (props) => {
             }
         })();
 
-    }, [isAuthenticated, getAccessTokenSilently])
+    }, [isAuthenticated, getAccessTokenSilently,myCollections])
 
     if (!myCollections) {
         return <div>Loading...</div>;
@@ -49,7 +50,7 @@ export const MyCollections = (props) => {
                     <Item key={item._id}>
                         <CardCollection collection={item}/>
                     </Item>))}
-                <NewCardCollection onCreate={onCreate} />
+                <NewCardCollection onCreate={handleCreate}/>
             </Stack>
         </>
     );

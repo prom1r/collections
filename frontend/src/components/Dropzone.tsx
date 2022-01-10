@@ -1,6 +1,7 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Button from '@mui/material/Button';
+import { postImage } from "../api/imageService";
 
 const baseStyle = {
     flex: 1,
@@ -54,7 +55,7 @@ const thumb = {
     border: '1px solid #eaeaea',
     marginBottom: 8,
     marginRight: 8,
-    width:'autho',
+    width: 'autho',
     height: 100,
     padding: 4,
     boxSizing: 'border-box' as 'border-box'
@@ -63,8 +64,13 @@ const text = {
     fontWeight: 'bold'
 }
 
-export const Dropzone = (props) => {
+interface DropzoneProps {
+    onUpload: (url: string) => void;
+}
+
+export const Dropzone: React.FC<DropzoneProps> = (props) => {
     const [files, setFiles] = useState([]);
+    const { onUpload } = props
     const {
         getRootProps,
         getInputProps,
@@ -73,10 +79,13 @@ export const Dropzone = (props) => {
         isDragReject,
         open,
     } = useDropzone({
-        accept: 'image/jpeg, image/png', maxFiles: 1, noClick: true, noKeyboard: true, onDrop: acceptedFiles => {
+        accept: 'image/jpeg, image/png', maxFiles: 1, noKeyboard: true, noClick: true, onDrop: async acceptedFiles => {
             setFiles(acceptedFiles.map(file => Object.assign(file, {
                 preview: URL.createObjectURL(file)
             })));
+            const data = await postImage(acceptedFiles[0]);
+            onUpload(data.url);
+
         }
     });
 
@@ -90,14 +99,10 @@ export const Dropzone = (props) => {
             </div>
         </div>
     ));
-    const show = ()=>{
-        console.log(files[0])
-    }
 
     useEffect(() => () => {
         files.forEach(file => URL.revokeObjectURL(file.preview));
     }, [files]);
-
 
     const style = useMemo(() => ({
         ...baseStyle,
@@ -110,6 +115,10 @@ export const Dropzone = (props) => {
         isDragAccept
     ]);
 
+    function show() {
+        console.log(files)
+    }
+
     return (
         <div className="container">
             <p style={text}>Add an image of your collection:</p>
@@ -117,9 +126,6 @@ export const Dropzone = (props) => {
                 <input {...getInputProps()} />
                 <em>Drag 'n' drop some files here, or click to select files</em>
                 <p>(Only *.jpeg and *.png images will be accepted)</p>
-                {/*<Button variant="contained" type="button" onClick={show}>*/}
-                {/*    show files*/}
-                {/*</Button>*/}
                 <Button variant="contained" type="button" onClick={open}>
                     Select files
                 </Button>
