@@ -5,6 +5,7 @@ import { Formik, Form } from 'formik';
 import Button from '@mui/material/Button';
 import { useAuth0 } from "@auth0/auth0-react";
 import { postNewCollections } from "../../../api/collectionService";
+import { Dropzone } from "../../../components/Dropzone";
 
 interface FormNewCollectionsProps {
     onCreate: (collection) => void;
@@ -31,8 +32,7 @@ export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => 
         title: Yup.string()
             .required('Required'),
         description: Yup.string().required('Required'),
-        category: Yup.string().required('Required'),
-        // srcImage: Yup.string().required('Required')
+        category: Yup.string().required('Required')
     })
 
     const onSubmit = async (values) => {
@@ -67,13 +67,7 @@ export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => 
                         options={dropdownOptions}
                         style='form-control'
                     />
-                    {/*<FormikControl*/}
-                    {/*    control='input'*/}
-                    {/*    type='text'*/}
-                    {/*    label='URL image:'*/}
-                    {/*    name='srcImage'*/}
-                    {/*    style = 'form-control'*/}
-                    {/*/>*/}
+                    <Dropzone/>
                     <FormikControl
                         control='textarea'
                         label='Description:'
