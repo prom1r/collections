@@ -10,6 +10,7 @@ import { Collection } from "../../../models/collections";
 
 interface FormNewCollectionsProps {
     onCreate: (collection) => void;
+    onClose: () => void;
 }
 
 export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => {
@@ -87,6 +88,13 @@ export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => 
                         disabled={!formik.isValid}
                         variant="outlined">
                         Save
+                    </Button>
+                    <Button sx={{
+                        marginLeft: 3
+                    }}
+                            onClick={props.onClose}
+                            variant="outlined">
+                        Close
                     </Button>
                 </Form>
             )}

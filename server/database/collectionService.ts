@@ -10,11 +10,16 @@ const getMyCollections = async (userId) => {
     return myCollection;
 }
 
-const postCollections = async (item) =>{
+const postCollections = async (item) => {
     const newCollection = new Collection(item);
     await newCollection.save();
     const lastItem = await Collection.find().lean();
     return lastItem
 }
 
-module.exports = { getTopCollections, getMyCollections,postCollections }
+const getMyCollectionsIdDb = async (id) => {
+    const myCollection = await Collection.findById(id)
+    return myCollection;
+}
+
+module.exports = { getTopCollections, getMyCollections, postCollections, getMyCollectionsIdDb }

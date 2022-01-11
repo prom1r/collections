@@ -63,7 +63,7 @@ export const NewCardCollection: React.FC<NewCardCollectionsProps> = (props) => {
                         p: 4,
                     }}>
                         <div className='formik'>
-                            <FormNewCollections onCreate={handleCreate}/>
+                            <FormNewCollections onCreate={handleCreate} onClose={handleClose}/>
                         </div>
                     </Box>
                 </Fade>

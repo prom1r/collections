@@ -3,7 +3,12 @@ const app = express();
 const port = 9000;
 const cors = require('cors');
 const database = require('./database/init.ts');
-const { getTopCollections, getMyCollections, postCollections } = require('./database/collectionService.ts');
+const {
+    getTopCollections,
+    getMyCollections,
+    postCollections,
+    getMyCollectionsIdDb
+} = require('./database/collectionService.ts');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 const axios = require('axios');
@@ -34,8 +39,13 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.get('/collections/my', checkJwt, async (req, res) => {
-    const myCollections = await getMyCollections(req.user.sub)
+    const myCollections = await getMyCollections(req.user.sub);
     res.json(myCollections);
+});
+
+app.post('/collections/id', async (req, res) => {
+    const myCollection = await getMyCollectionsIdDb(req.body.id);
+    res.json(myCollection);
 });
 
 

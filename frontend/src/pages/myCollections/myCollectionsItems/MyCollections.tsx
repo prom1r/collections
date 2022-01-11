@@ -6,8 +6,9 @@ import Paper from '@mui/material/Paper';
 import { getMyCollections } from "../../../api/collectionService";
 import { NewCardCollection } from "./NewCardCollections";
 import Box from '@mui/material/Box';
-import Slide from '@mui/material/Slide';
 import Snackbar from '@mui/material/Snackbar';
+import { Link } from "react-router-dom";
+
 
 const Item = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(1),
@@ -21,32 +22,15 @@ export const MyCollections = (props) => {
     const [myCollections, setMyCollections] = useState([])
     const { isAuthenticated, getAccessTokenSilently } = useAuth0();
     const [open, setOpen] = React.useState(false);
-    const [transition, setTransition] = React.useState(undefined);
+    const handleClose = () => setOpen(false);
 
-    function TransitionUp(props) {
-        return <Slide {...props} direction="up" />;
-    }
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const handleCreate = (newCollection) => {
         myCollections.splice(0, 0, newCollection);
-        (async () => {
-            try {
-                const token = await getAccessTokenSilently();
-                getMyCollections(token).then((result) => {
-                    setMyCollections(result)
-                })
-            } catch (e) {
-                console.error(e);
-            }
-        })();
-        setTransition(() => TransitionUp);
+        const newMyCollections = myCollections.slice();
+        setMyCollections(newMyCollections);
         setOpen(true);
     }
-
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -80,15 +64,16 @@ export const MyCollections = (props) => {
         }}>
             {myCollections.map(item => (
                 <Item key={item._id}>
-                    <CardCollection collection={item}/>
+                    <Link to={`/collection/${item._id}`}><CardCollection collection={item}/></Link>
                 </Item>))}
             <NewCardCollection onCreate={handleCreate}/>
             <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 open={open}
+                autoHideDuration={3000}
                 onClose={handleClose}
-                TransitionComponent={transition}
-                message="Your collection has been successfully added"
-                key={transition ? transition.name : ''}
+                message="Your collection has been successfully added!"
+                key={'onCreate'}
             />
         </Box>
     );
