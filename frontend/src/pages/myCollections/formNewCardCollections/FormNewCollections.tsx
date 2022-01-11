@@ -47,7 +47,6 @@ export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => 
             const token = await getAccessTokenSilently();
             values.srcImg = url;
             const item = await postNewCollections(token, values);
-            // console.log(item)
             props.onCreate(item);
         } catch (e) {
             console.error(e);

@@ -26,17 +26,19 @@ export const NewCardCollection: React.FC<NewCardCollectionsProps> = (props) => {
         <div>
             <Button onClick={handleOpen} component="div"
                     sx={{
-                        width: 240,
                         border: '2px dashed grey',
-                        marginTop: 6,
-                        height: 360,
-                        marginLeft: 8,
+                        maxWidth: 345,
+                        boxShadow: 10,
+                        minWidth: 240,
+                        minHeight: 260,
+                        height: '100%',
+                        width: '100%',
                         backgroundColor: 'ghostwhite',
                         '&:hover': {
                             backgroundColor: 'lavender',
                             opacity: [0.9, 0.8, 0.7],
                         },
-                    }}>Create Collection button
+                    }}>Create Collection
             </Button>
             <Modal
                 aria-labelledby="transition-modal-title"

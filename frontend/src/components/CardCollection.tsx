@@ -17,6 +17,7 @@ export const CardCollection: FC<CardCollectionProps> = (props) => {
         <Card sx={{
             maxWidth: 345,
             boxShadow: 10,
+            minWidth: 200,
         }}>
             <Typography gutterBottom variant="h5" component="div" sx={{
                 paddingTop: '10px',
