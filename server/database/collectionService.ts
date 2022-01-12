@@ -13,14 +13,8 @@ const getMyCollections = async (userId) => {
 const postCollections = async (item) => {
     const newCollection = new Collection(item);
     await newCollection.save();
-    // const lastItem = await Collection.find().lean();
-    // return lastItem
 }
 
-// const getMyCollectionsIdDb = async (id) => {
-//     const myCollection = await Collection.findById(id);
-//     return myCollection;
-// }
 const getMyCollectionsIdDb = async (id) => {
     let myCollection
     try {

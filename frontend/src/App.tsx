@@ -5,7 +5,8 @@ import Navbar from "./components/navigation/Navbar";
 import { Routes, Route, Link, BrowserRouter } from "react-router-dom";
 import { MyCollectionsPage } from "./pages/myCollections/MyCollectionsPage";
 import { CollectionPage } from "./pages/collectionPage/CollectionPage";
-import { PageNotFound } from "./pages/notFound/PageNotFound";
+import { ItemPage } from "./pages/ItemsPage/ItemPage";
+
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                     <Route path="/" element={<HomePage/>}/>
                     <Route path="/collections/my" element={<MyCollectionsPage/>}/>
                     <Route path="/collection/:id" element={<CollectionPage/>}/>
+                    <Route path="/item/:id" element={<ItemPage/>}/>
                 </Routes>
             </BrowserRouter>
         </div>

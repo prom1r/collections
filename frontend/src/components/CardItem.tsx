@@ -21,7 +21,7 @@ export const CardItem = (props) => {
                 component="img"
                 alt="green iguana"
                 height="140"
-                // image={srcImg}
+                image={srcImg}
             />
             <CardContent>
                 <Typography variant="body2" color="text.secondary">

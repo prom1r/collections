@@ -5,6 +5,7 @@ import { getMyItems } from "../../../api/itemsService";
 import { CardItem } from "../../../components/CardItem";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
+import { Link } from "react-router-dom";
 
 const Item = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(1),
@@ -16,6 +17,13 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export const CollectionItems = (props) => {
     const [items, setMyItems] = useState([])
+
+    const handleCreate = (newCollection) => {
+        items.splice(0, 0, newCollection);
+        const newMyItems = items.slice();
+        setMyItems(newMyItems);
+    }
+
     useEffect(() => {
         (async () => {
             try {
@@ -41,9 +49,11 @@ export const CollectionItems = (props) => {
         }}>
             {items.map(item => (
                 <Item key={item._id}>
-                    <CardItem item={item}/>
+                    <Link style={{ textDecoration: 'none' }} to={`/item/${item._id}`}>
+                        <CardItem item={item}/>
+                    </Link>
                 </Item>))}
-            <NewCardItem collectionId={props.collectionId}/>
+            <NewCardItem collectionId={props.collectionId} onCreate={handleCreate}/>
         </Box>
     );
 }

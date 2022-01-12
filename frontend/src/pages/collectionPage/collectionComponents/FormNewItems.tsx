@@ -8,6 +8,7 @@ import { postNewItems } from "../../../api/itemsService";
 import { Item } from "../../../models/item";
 
 export const FormNewItems = (props) => {
+    const [url, setUrl] = useState(null);
 
     const initialValues = {
         title: '',
@@ -19,13 +20,17 @@ export const FormNewItems = (props) => {
             .required('Required'),
         description: Yup.string().required('Required'),
     })
+    const handleFileUpload = (url) => {
+        setUrl(url);
+    }
 
 
     const onSubmit = async (values:Item) => {
         try {
-            values.collectionId = props.collectionId
-            console.log(props.idCollection)
+            values.collectionId = props.collectionId;
+            values.srcImg = url;
             const item = await postNewItems(values);
+            props.onCreate(item);
         } catch (e) {
             console.error(e);
         }
@@ -46,6 +51,7 @@ export const FormNewItems = (props) => {
                         name='title'
                         style='form-control'
                     />
+                    <Dropzone onUpload={handleFileUpload}/>
                     <FormikControl
                         control='textarea'
                         label='Description:'

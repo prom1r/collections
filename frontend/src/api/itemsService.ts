@@ -7,7 +7,6 @@ export const postNewItems = async ( values) => {
     return response.data;
 }
 
-
 export const getTopItem = async () => {
     const apiUrl = `${BACKEND_URL}/items/top`;
     const response = await axios.get<Item[]>(apiUrl);
@@ -19,3 +18,11 @@ export const getMyItems = async (id) => {
     const response = await axios.post(apiUrl, { id });
     return response.data;
 }
+
+export const getMyItemId = async (id) => {
+    const apiUrl = `${BACKEND_URL}/item`;
+    const response = await axios.post(apiUrl, { id });
+    return response.data;
+}
+
+

@@ -12,6 +12,11 @@ export const NewCardItem = (props) => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+        const onCreate =(item)=>{
+            props.onCreate(item)
+            handleClose()
+        }
+
     return (
         <div>
             <Button onClick={handleOpen} component="div"
@@ -53,7 +58,7 @@ export const NewCardItem = (props) => {
                         p: 4,
                     }}>
                         <div className='formik'>
-                            <FormNewItems onClose={handleClose} collectionId={props.collectionId}/>
+                            <FormNewItems onCreate={onCreate} collectionId={props.collectionId} />
                         </div>
                     </Box>
                 </Fade>

@@ -5,9 +5,7 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import Chip from '@mui/material/Chip';
-import FaceIcon from '@mui/icons-material/Face';
+
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -19,8 +17,9 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 
-export const CollectionHeader = (props) => {
-    const { _id, title, srcImg, category, description } = props.collection;
+export const ItemInfo = (props) => {
+    const {  title, srcImg, description } = props.item;
+
 
     return (
         <Box sx={{
@@ -46,19 +45,6 @@ export const CollectionHeader = (props) => {
                         <Typography variant="body2" color="text.secondary">
                             {description}
                         </Typography>
-                        <Stack direction="row" spacing={2}>
-                            <Item>
-                                <Chip label={category} variant="outlined"/>
-                            </Item>
-                            <Item>
-                                <Typography gutterBottom variant="h6" color="text.secondary">
-                                    {props.itemsCount} items
-                                </Typography>
-                            </Item>
-                            <Item>
-                                <Chip variant="outlined" icon={<FaceIcon/>} label='Autor:DimasKarabas'/>
-                            </Item>
-                        </Stack>
                     </Item>
                 </Grid>
             </Grid>
