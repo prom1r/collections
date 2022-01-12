@@ -17,9 +17,19 @@ const postCollections = async (item) => {
     return lastItem
 }
 
+// const getMyCollectionsIdDb = async (id) => {
+//     const myCollection = await Collection.findById(id);
+//     return myCollection;
+// }
 const getMyCollectionsIdDb = async (id) => {
-    const myCollection = await Collection.findById(id)
+    let myCollection
+    try {
+        myCollection = await Collection.findById(id)
+    } catch (e) {
+        myCollection = {}
+    }
     return myCollection;
 }
+
 
 module.exports = { getTopCollections, getMyCollections, postCollections, getMyCollectionsIdDb }

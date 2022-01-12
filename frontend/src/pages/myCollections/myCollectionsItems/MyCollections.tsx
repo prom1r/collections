@@ -64,7 +64,8 @@ export const MyCollections = (props) => {
         }}>
             {myCollections.map(item => (
                 <Item key={item._id}>
-                    <Link to={`/collection/${item._id}`}><CardCollection collection={item}/></Link>
+                    <Link style={{ textDecoration: 'none' }} to={`/collection/${item._id}`}><CardCollection
+                        collection={item}/></Link>
                 </Item>))}
             <NewCardCollection onCreate={handleCreate}/>
             <Snackbar

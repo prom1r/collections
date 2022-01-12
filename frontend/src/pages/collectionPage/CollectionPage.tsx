@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CollectionHeader } from "./collectionComponents/CollectionHeader";
 import { useParams } from "react-router-dom";
 import { getMyCollectionsId } from "../../api/collectionService";
+import { PageNotFound } from "../notFound/PageNotFound";
 
 export const CollectionPage = () => {
     const { id } = useParams();
@@ -15,7 +16,8 @@ export const CollectionPage = () => {
 
     return (
         <div>
-            <CollectionHeader />
+            <CollectionHeader collection={collection}/>
         </div>
     );
+
 }
