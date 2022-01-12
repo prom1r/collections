@@ -7,15 +7,28 @@ async function main() {
 }
 
 const collectionsSchema = new mongoose.Schema({
-    id:mongoose.ObjectId,
+    id: mongoose.ObjectId,
     title: String,
     srcImg: String,
     itemsCount: Number,
-    userId:String,
-    category:String,
-    description:String
+    userId: String,
+    category: String,
+    description: String
+})
+
+const itemsSchema = new mongoose.Schema({
+    id: mongoose.ObjectId,
+    collectionId: String,
+    title: String,
+    srcImg: String,
+    itemsCount: Number,
+    userId: String,
+    category: String,
+    description: String
 })
 
 const Collection = mongoose.model('collections', collectionsSchema);
 
-module.exports = {Collection}
+const Item = mongoose.model('items', itemsSchema);
+
+module.exports = { Collection, Item }

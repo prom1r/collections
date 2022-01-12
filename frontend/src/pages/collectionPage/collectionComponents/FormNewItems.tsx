@@ -3,51 +3,29 @@ import * as Yup from 'yup';
 import { FormikControl } from "../../../components/FormikControl";
 import { Formik, Form } from 'formik';
 import Button from '@mui/material/Button';
-import { useAuth0 } from "@auth0/auth0-react";
-import { postNewCollections } from "../../../api/collectionService";
 import { Dropzone } from "../../../components/Dropzone";
-import { Collection } from "../../../models/collections";
+import { postNewItems } from "../../../api/itemsService";
+import { Item } from "../../../models/item";
 
-interface FormNewCollectionsProps {
-    onCreate: (collection) => void;
-    onClose: () => void;
-}
-
-export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => {
-    const { getAccessTokenSilently } = useAuth0();
-    const [url, setUrl] = useState(null);
-
-    const dropdownOptions = [
-        { key: 'Category', value: '' },
-        { key: 'Cars', value: 'car' },
-        { key: 'Books', value: 'books' },
-        { key: 'Beer', value: 'beer' },
-        { key: 'Other', value: 'other' },
-    ]
+export const FormNewItems = (props) => {
 
     const initialValues = {
         title: '',
         description: '',
-        category: ''
     }
 
     const validationSchema = Yup.object({
         title: Yup.string()
             .required('Required'),
         description: Yup.string().required('Required'),
-        category: Yup.string().required('Required')
     })
 
-    const handleFileUpload = (url) => {
-        setUrl(url);
-    }
 
-    const onSubmit = async (values: Collection) => {
+    const onSubmit = async (values:Item) => {
         try {
-            const token = await getAccessTokenSilently();
-            values.srcImg = url;
-            const item = await postNewCollections(token, values);
-            props.onCreate(item);
+            values.collectionId = props.collectionId
+            console.log(props.idCollection)
+            const item = await postNewItems(values);
         } catch (e) {
             console.error(e);
         }
@@ -68,14 +46,6 @@ export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => 
                         name='title'
                         style='form-control'
                     />
-                    <FormikControl
-                        control='select'
-                        label='Category:'
-                        name='category'
-                        options={dropdownOptions}
-                        style='form-control'
-                    />
-                    <Dropzone onUpload={handleFileUpload}/>
                     <FormikControl
                         control='textarea'
                         label='Description:'

@@ -9,6 +9,10 @@ const {
     postCollections,
     getMyCollectionsIdDb
 } = require('./database/collectionService.ts');
+const {
+    postItems,
+    getItems
+} = require('./database/itemsService.ts');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 const axios = require('axios');
@@ -59,8 +63,10 @@ app.post('/collections/my', checkJwt, async (req, res) => {
     const userId = req.user.sub;
     newCollections.userId = userId;
     const response = await postCollections(newCollections);
-    res.json(response[response.length - 1]);
+    // res.json(response[response.length - 1]);
+    res.json(response)
 });
+
 
 app.get('/items/top', (req, res) => {
     const temp = [
@@ -94,6 +100,18 @@ app.post('/upload', upload.single('image'), async (req, res) => {
     res.json({ url });
 });
 
+
+app.post('/items', async (req, res) => {
+    const newItems = req.body.values;
+    const response = await postItems(newItems);
+    res.json(response);
+});
+
+app.post('/collection/items', async (req, res) => {
+    const collectionId = req.body.id;
+    const response = await getItems(collectionId);
+    res.json(response);
+});
 
 app.listen(port, () => {
     console.log('start server');

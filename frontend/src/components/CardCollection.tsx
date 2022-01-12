@@ -12,7 +12,7 @@ interface CardCollectionProps {
 }
 
 export const CardCollection: FC<CardCollectionProps> = (props) => {
-    const { _id, title, srcImg, itemsCount, category,description} = props.collection;
+    const { _id, title, srcImg, itemsCount, category, description } = props.collection;
     return (
         <Card sx={{
             maxWidth: 345,
@@ -38,13 +38,13 @@ export const CardCollection: FC<CardCollectionProps> = (props) => {
             <CardContent sx={{
                 paddingTop: '0px',
                 paddingBottom: '0px',
-                display:'flex',
-                flexDirection:'row',
-                justifyContent:'space-around'
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-around'
 
             }}>
                 <Typography fontSize='1.3em' sx={{
-                    verticalAlign:'middle'
+                    verticalAlign: 'middle'
                 }}>
                     {itemsCount} items
                 </Typography>
