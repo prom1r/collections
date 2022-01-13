@@ -38,7 +38,7 @@ export const CollectionPage = () => {
     return (
         <div>
             <CollectionHeader collection={collection} itemsCount={itemsCount}/>
-            <CollectionItems collectionId={collectionId}/>
+            <CollectionItems collectionId={collectionId} collectionTitle={collection.title}/>
         </div>
     );
 

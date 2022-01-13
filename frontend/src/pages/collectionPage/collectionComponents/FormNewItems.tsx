@@ -25,10 +25,11 @@ export const FormNewItems = (props) => {
     }
 
 
-    const onSubmit = async (values:Item) => {
+    const onSubmit = async (values: Item) => {
         try {
             values.collectionId = props.collectionId;
             values.srcImg = url;
+            values.collectionTitle = props.collectionTitle;
             const item = await postNewItems(values);
             props.onCreate(item);
         } catch (e) {

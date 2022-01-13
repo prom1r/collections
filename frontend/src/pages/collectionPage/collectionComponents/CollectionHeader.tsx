@@ -12,7 +12,7 @@ import FaceIcon from '@mui/icons-material/Face';
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
-    textAlign: 'center',
+    textAlign: 'left',
     color: theme.palette.text.secondary,
     boxShadow: '0px 0px 0px 0px',
     backgroundSize: 'cover'
@@ -40,8 +40,8 @@ export const CollectionHeader = (props) => {
                 </Grid>
                 <Grid item xs={8}>
                     <Item>
-                        <Typography gutterBottom variant="h3" component="div">
-                            COLLECTION: {title}
+                        <Typography gutterBottom variant="h2" component="h2">
+                            {title}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                             {description}

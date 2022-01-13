@@ -75,6 +75,15 @@ export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => 
                         options={dropdownOptions}
                         style='form-control'
                     />
+
+                    <button
+                        type="button"
+                        className="secondary"
+                        // onClick={() => push({ name: '', email: '' })}
+                    >
+                        +Add new field to item
+                    </button>
+
                     <Dropzone onUpload={handleFileUpload}/>
                     <FormikControl
                         control='textarea'

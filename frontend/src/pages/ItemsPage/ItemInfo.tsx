@@ -5,12 +5,13 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-
+import Button from '@mui/material/Button';
+import { Link } from "react-router-dom";
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
-    textAlign: 'center',
+    textAlign: 'left',
     color: theme.palette.text.secondary,
     boxShadow: '0px 0px 0px 0px',
     backgroundSize: 'cover'
@@ -18,9 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 export const ItemInfo = (props) => {
-    const {  title, srcImg, description } = props.item;
-
-
+    const { title, srcImg, description, collectionTitle, collectionId } = props.item;
     return (
         <Box sx={{
             flexGrow: 1,
@@ -39,9 +38,20 @@ export const ItemInfo = (props) => {
                 </Grid>
                 <Grid item xs={8}>
                     <Item>
-                        <Typography gutterBottom variant="h3" component="div">
-                            COLLECTION: {title}
-                        </Typography>
+                        <Grid container spacing={2}>
+                            <Grid item xs={10}>
+                                <Typography gutterBottom variant="h2" component="h2">
+                                    {title}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={2}>
+                                <Link style={{ textDecoration: 'none' }} to={`/collection/${collectionId}`}>
+                                    <Button variant="outlined" size="medium">
+                                        Back to {collectionTitle}
+                                    </Button>
+                                </Link>
+                            </Grid>
+                        </Grid>
                         <Typography variant="body2" color="text.secondary">
                             {description}
                         </Typography>

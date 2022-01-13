@@ -6,6 +6,8 @@ import { CardItem } from "../../../components/CardItem";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { Link } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+
 
 const Item = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(1),
@@ -16,12 +18,15 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export const CollectionItems = (props) => {
-    const [items, setMyItems] = useState([])
+    const [items, setMyItems] = useState([]);
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => setOpen(false);
 
     const handleCreate = (newCollection) => {
         items.splice(0, 0, newCollection);
         const newMyItems = items.slice();
         setMyItems(newMyItems);
+        setOpen(true);
     }
 
     useEffect(() => {
@@ -53,7 +58,17 @@ export const CollectionItems = (props) => {
                         <CardItem item={item}/>
                     </Link>
                 </Item>))}
-            <NewCardItem collectionId={props.collectionId} onCreate={handleCreate}/>
+            <NewCardItem collectionId={props.collectionId}
+                         onCreate={handleCreate}
+                         collectionTitle={props.collectionTitle}/>
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                open={open}
+                autoHideDuration={3000}
+                onClose={handleClose}
+                message="Your item has been successfully added!"
+                key={'onCreate'}
+            />
         </Box>
     );
 }

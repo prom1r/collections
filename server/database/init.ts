@@ -19,6 +19,7 @@ const collectionsSchema = new mongoose.Schema({
 const itemsSchema = new mongoose.Schema({
     id: mongoose.ObjectId,
     collectionId: String,
+    collectionTitle:String,
     title: String,
     srcImg: String,
     itemsCount: Number,
