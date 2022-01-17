@@ -60,7 +60,8 @@ export const CollectionItems = (props) => {
                 </Item>))}
             <NewCardItem collectionId={props.collectionId}
                          onCreate={handleCreate}
-                         collectionTitle={props.collectionTitle}/>
+                         collectionTitle={props.collectionTitle}
+                         customField={props.customField}/>
             <Snackbar
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 open={open}

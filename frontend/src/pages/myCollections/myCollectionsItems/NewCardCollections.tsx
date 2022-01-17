@@ -1,12 +1,9 @@
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
+import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import { FormNewCollections } from "../formNewCardCollections/FormNewCollections";
 import '../formNewCardCollections/formik.css';
-
 
 interface NewCardCollectionsProps {
     onCreate: (collection) => void;
@@ -40,9 +37,10 @@ export const NewCardCollection: React.FC<NewCardCollectionsProps> = (props) => {
                         },
                     }}>Create Collection
             </Button>
-            <Modal
+            <Drawer
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
+                anchor={'right'}
                 open={open}
                 onClose={handleClose}
                 closeAfterTransition
@@ -51,23 +49,10 @@ export const NewCardCollection: React.FC<NewCardCollectionsProps> = (props) => {
                     timeout: 500,
                 }}
             >
-                <Fade in={open}>
-                    <Box sx={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        bgcolor: 'background.paper',
-                        border: '2px solid #000',
-                        boxShadow: 24,
-                        p: 4,
-                    }}>
-                        <div className='formik'>
-                            <FormNewCollections onCreate={handleCreate} onClose={handleClose}/>
-                        </div>
-                    </Box>
-                </Fade>
-            </Modal>
+                <div className='formik'>
+                    <FormNewCollections onCreate={handleCreate} onClose={handleClose}/>
+                </div>
+            </Drawer>
         </div>
     );
 }

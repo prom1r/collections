@@ -1,24 +1,24 @@
 const express = require('express');
 const app = express();
-const port = 9000;
+const port = process.env.PORT || 9000;
 const cors = require('cors');
-const database = require('./database/init.ts');
+const database = require('./database/init');
 const {
     getTopCollections,
     getMyCollections,
     postCollections,
     getMyCollectionsIdDb
-} = require('./database/collectionService.ts');
+} = require('./database/collectionService');
 const {
     postItems,
     getItems,
     getMyItemIdDb
-} = require('./database/itemsService.ts');
+} = require('./database/itemsService');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 const axios = require('axios');
 const bodyParser = require('body-parser');
-const uploadAzure = require('./blob/blob.ts');
+const uploadAzure = require('./blob/blob');
 const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -43,23 +43,23 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.get('/collections/my', checkJwt, async (req, res) => {
+app.get('/collections/my', checkJwt, async(req, res) => {
     const myCollections = await getMyCollections(req.user.sub);
     res.json(myCollections);
 });
 
-app.post('/collections/id', async (req, res) => {
+app.post('/collections/id', async(req, res) => {
     const myCollection = await getMyCollectionsIdDb(req.body.id);
     res.json(myCollection);
 });
 
 
-app.get('/collections/top', async (req, res) => {
+app.get('/collections/top', async(req, res) => {
     const collections = await getTopCollections();
     res.json(collections);
 })
 
-app.post('/collections/my', checkJwt, async (req, res) => {
+app.post('/collections/my', checkJwt, async(req, res) => {
     const newCollections = req.body.values;
     const userId = req.user.sub;
     newCollections.userId = userId;
@@ -69,8 +69,7 @@ app.post('/collections/my', checkJwt, async (req, res) => {
 
 
 app.get('/items/top', (req, res) => {
-    const temp = [
-        {
+    const temp = [{
             id: '01',
             title: 'BOBO',
             srcImg: 'https://klike.net/uploads/posts/2018-06/1530091495_2.jpg',
@@ -90,30 +89,31 @@ app.get('/items/top', (req, res) => {
             srcImg: 'https://i.pinimg.com/originals/7a/26/20/7a262042b9dc3cd5425550727ebf3c76.jpg',
             like: '20',
             description: 'LALALA'
-        }];
+        }
+    ];
     res.json(temp);
 
 })
 
-app.post('/upload', upload.single('image'), async (req, res) => {
+app.post('/upload', upload.single('image'), async(req, res) => {
     const url = await uploadAzure(req.file);
     res.json({ url });
 });
 
 
-app.post('/items', async (req, res) => {
+app.post('/items', async(req, res) => {
     const newItems = req.body.values;
     const response = await postItems(newItems);
     res.json(response);
 });
 
-app.post('/collection/items', async (req, res) => {
+app.post('/collection/items', async(req, res) => {
     const collectionId = req.body.id;
     const response = await getItems(collectionId);
     res.json(response);
 });
 
-app.post('/item', async (req, res) => {
+app.post('/item', async(req, res) => {
     const myCollection = await getMyItemIdDb(req.body.id);
     res.json(myCollection);
 });

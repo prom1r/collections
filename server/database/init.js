@@ -13,19 +13,21 @@ const collectionsSchema = new mongoose.Schema({
     itemsCount: Number,
     userId: String,
     category: String,
-    description: String
+    description: String,
+    customFields: Object,
 })
 
 const itemsSchema = new mongoose.Schema({
     id: mongoose.ObjectId,
     collectionId: String,
-    collectionTitle:String,
+    collectionTitle: String,
     title: String,
     srcImg: String,
     itemsCount: Number,
     userId: String,
     category: String,
-    description: String
+    description: String,
+    customField: Object,
 })
 
 const Collection = mongoose.model('collections', collectionsSchema);

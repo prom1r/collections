@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/130a8465-eda5-40bd-a6ac-efc37ac45a30/resourceGroups/itransition/providers/Microsoft.Web/sites/collections-prom1r",
+    "appService.deploySubpath": "."
+}

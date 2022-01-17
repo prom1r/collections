@@ -9,7 +9,6 @@ export const ItemPage = () => {
     const { id } = useParams();
     const [isLoaded, setIsLoaded] = useState(false);
     const [item, setItem] = useState(null);
-
     useEffect(() => {
         getMyItemId(id).then((result) => {
             setItem(result)
@@ -23,7 +22,6 @@ export const ItemPage = () => {
     if (isLoaded && !item) {
         return <PageNotFound/>
     }
-
     return (
         <div>
             <ItemInfo item={item}/>
