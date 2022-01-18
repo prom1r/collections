@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { ItemFieldControl } from 'components/itemFieldControl/ItemFieldControl';
+import { CustomFieldView } from 'pages/ItemsPage/customFieldViews/CustomFieldView';
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -31,12 +31,11 @@ export const ItemInfo = (props) => {
             <Grid container spacing={2}>
                 <Grid item xs={6} textAlign='left' marginLeft='10px' marginBottom='10px'>
                     <Link style={{ textDecoration: 'none' }} to={`/collection/${collectionId}`}>
-                        <Button variant="contained" startIcon={<ArrowBackIosNewIcon fontSize='large' />}>
+                        <Button variant="contained" startIcon={<ArrowBackIosNewIcon fontSize='large'/>}>
                             Back to {collectionTitle}
                         </Button>
                     </Link>
                 </Grid>
-
             </Grid>
             <Grid container spacing={2}>
                 <Grid item xs={4}>
@@ -52,19 +51,17 @@ export const ItemInfo = (props) => {
                 <Grid item xs={8}>
                     <Item>
                         <Grid container spacing={2}>
-                            <Typography gutterBottom variant="h2" component="h2">
+                            <Typography gutterBottom variant="h2" component="h2" sx={{
+                                paddingLeft: '10px',
+                                paddingBottom: '20px'
+                            }}>
                                 {title}
                             </Typography>
                         </Grid>
-                        <Typography variant="body2" color="text.secondary">
-                            {description}
-                        </Typography>
+                        <Grid container item spacing={3}>
+                            {customField.map(item => <CustomFieldView item={item}/>)}
+                        </Grid>
                     </Item>
-                </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-                <Grid container item spacing={3}>
-                    {customField.map(item => <ItemFieldControl item={item} />)}
                 </Grid>
             </Grid>
         </Box>

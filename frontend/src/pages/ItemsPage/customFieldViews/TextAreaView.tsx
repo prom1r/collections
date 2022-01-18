@@ -8,11 +8,14 @@ interface TextAreaStringProps {
     value: string;
 }
 
-export const TextAreaString: React.FC<TextAreaStringProps> = (props) => {
+export const TextAreaView: React.FC<TextAreaStringProps> = (props) => {
     return (
         <Grid container item spacing={3}>
-            <Typography gutterBottom variant="h4" component="h4" sx={{ paddingLeft: '50px' }}>
-                {props.name}:{props.value}
+            <Typography gutterBottom sx={{
+                paddingLeft: '20px',
+                fontSize: '20pt'
+            }}>
+                <strong>{props.name}</strong> {props.value}
             </Typography>
         </Grid>
     );

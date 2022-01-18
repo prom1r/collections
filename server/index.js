@@ -12,7 +12,7 @@ const {
 const {
     postItems,
     getItems,
-    getMyItemIdDb
+    getMyItemIdDb, getRecentItems
 } = require('./database/itemsService');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
@@ -21,7 +21,7 @@ const bodyParser = require('body-parser');
 const uploadAzure = require('./blob/blob');
 const multer = require('multer');
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const upload = multer({storage: storage});
 
 app.use(cors());
 
@@ -43,23 +43,23 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.get('/collections/my', checkJwt, async(req, res) => {
+app.get('/collections/my', checkJwt, async (req, res) => {
     const myCollections = await getMyCollections(req.user.sub);
     res.json(myCollections);
 });
 
-app.post('/collections/id', async(req, res) => {
-    const myCollection = await getMyCollectionsIdDb(req.body.id);
+app.get('/collections/:id', async (req, res) => {
+    const myCollection = await getMyCollectionsIdDb(req.params.id);
     res.json(myCollection);
 });
 
 
-app.get('/collections/top', async(req, res) => {
+app.get('/collections/top', async (req, res) => {
     const collections = await getTopCollections();
     res.json(collections);
 })
 
-app.post('/collections/my', checkJwt, async(req, res) => {
+app.post('/collections/my', checkJwt, async (req, res) => {
     const newCollections = req.body.values;
     const userId = req.user.sub;
     newCollections.userId = userId;
@@ -68,52 +68,30 @@ app.post('/collections/my', checkJwt, async(req, res) => {
 });
 
 
-app.get('/items/top', (req, res) => {
-    const temp = [{
-            id: '01',
-            title: 'BOBO',
-            srcImg: 'https://klike.net/uploads/posts/2018-06/1530091495_2.jpg',
-            like: '10',
-            description: 'COOL'
-        },
-        {
-            id: '02',
-            title: 'BOBO',
-            srcImg: 'https://static10.tgstat.ru/channels/_0/01/01d7337a30440ab303a8638edcdc3478.jpg',
-            like: '10',
-            description: 'OLOLO0'
-        },
-        {
-            id: '03',
-            title: 'BIBI',
-            srcImg: 'https://i.pinimg.com/originals/7a/26/20/7a262042b9dc3cd5425550727ebf3c76.jpg',
-            like: '20',
-            description: 'LALALA'
-        }
-    ];
-    res.json(temp);
-
+app.get('/items/recent', async (req, res) => {
+    const items = await getRecentItems();
+    res.json(items);
 })
 
-app.post('/upload', upload.single('image'), async(req, res) => {
+app.post('/upload', upload.single('image'), async (req, res) => {
     const url = await uploadAzure(req.file);
-    res.json({ url });
+    res.json({url});
 });
 
 
-app.post('/items', async(req, res) => {
+app.post('/items', async (req, res) => {
     const newItems = req.body.values;
     const response = await postItems(newItems);
     res.json(response);
 });
 
-app.post('/collection/items', async(req, res) => {
+app.post('/collection/items', async (req, res) => {
     const collectionId = req.body.id;
     const response = await getItems(collectionId);
     res.json(response);
 });
 
-app.post('/item', async(req, res) => {
+app.post('/item', async (req, res) => {
     const myCollection = await getMyItemIdDb(req.body.id);
     res.json(myCollection);
 });

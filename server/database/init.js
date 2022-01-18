@@ -26,8 +26,9 @@ const itemsSchema = new mongoose.Schema({
     itemsCount: Number,
     userId: String,
     category: String,
-    description: String,
     customField: Object,
+    date: Object,
+    userNickname:String
 })
 
 const Collection = mongoose.model('collections', collectionsSchema);

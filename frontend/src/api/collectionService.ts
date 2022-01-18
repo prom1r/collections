@@ -15,8 +15,8 @@ export const getMyCollections = async (token) => {
 }
 
 export const getMyCollectionsId = async (id) => {
-    const apiUrl = `${BACKEND_URL}/collections/id`;
-    const response = await axios.post(apiUrl, { id });
+    const apiUrl = `${BACKEND_URL}/collections/${id}`;
+    const response = await axios.get(apiUrl);
     return response.data;
 }
 

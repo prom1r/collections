@@ -1,5 +1,3 @@
-import { CustomField } from './customFields';
-
 export interface Item {
     collectionId: number;
     collectionTitle: string;
@@ -9,5 +7,6 @@ export interface Item {
     alt: string;
     srcImg: string;
     like: number;
-    description: string;
+    date: object;
+    userNickname:string;
 }
