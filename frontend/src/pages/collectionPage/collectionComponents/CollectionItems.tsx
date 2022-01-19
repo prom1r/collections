@@ -18,6 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export const CollectionItems = (props) => {
+
     const [items, setMyItems] = useState([]);
     const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false);
@@ -58,10 +59,14 @@ export const CollectionItems = (props) => {
                         <CardItem item={item}/>
                     </Link>
                 </Item>))}
+
+
             <NewCardItem collectionId={props.collectionId}
                          onCreate={handleCreate}
                          collectionTitle={props.collectionTitle}
-                         customField={props.customField}/>
+                         customField={props.customField}
+                         userId={props.userId}/>
+
             <Snackbar
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 open={open}

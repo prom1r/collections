@@ -13,14 +13,14 @@ export const getRecentItems = async () => {
 }
 
 export const getMyItems = async (id) => {
-    const apiUrl = `${BACKEND_URL}/collection/items`;
-    const response = await axios.post(apiUrl, { id });
+    const apiUrl = `${BACKEND_URL}/collection/items/${id}`;
+    const response = await axios.get(apiUrl);
     return response.data;
 }
 
 export const getMyItemId = async (id) => {
-    const apiUrl = `${BACKEND_URL}/item`;
-    const response = await axios.post(apiUrl, { id });
+    const apiUrl = `${BACKEND_URL}/item/${id}`;
+    const response = await axios.get(apiUrl);
     return response.data;
 }
 

@@ -19,7 +19,7 @@ export const CardItem = (props) => {
             </Typography>
             <CardMedia
                 component="img"
-                alt="green iguana"
+                alt={title}
                 height="140"
                 image={srcImg}
             />

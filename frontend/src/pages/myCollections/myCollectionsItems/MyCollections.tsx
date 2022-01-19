@@ -8,6 +8,8 @@ import { NewCardCollection } from "./NewCardCollections";
 import Box from '@mui/material/Box';
 import Snackbar from '@mui/material/Snackbar';
 import { Link } from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
+import { PageNotFound } from "../../notFound/PageNotFound";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -20,7 +22,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export const MyCollections = (props) => {
     const [myCollections, setMyCollections] = useState([])
-    const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+    const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
     const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false);
 
@@ -49,34 +51,46 @@ export const MyCollections = (props) => {
 
     }, [isAuthenticated, getAccessTokenSilently])
 
+
     if (!myCollections) {
-        return <div>Loading...</div>;
+        return <CircularProgress/>;
     }
-    return (
-        <Box sx={{
-            paddingTop: '50px',
-            paddingLeft: '10px',
-            width: 'auto',
-            display: 'flex',
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            gap: '30px'
-        }}>
-            {myCollections.map(item => (
-                <Item key={item._id}>
-                    <Link style={{ textDecoration: 'none' }} to={`/collection/${item._id}`}>
-                        <CardCollection collection={item}/>
-                    </Link>
-                </Item>))}
-            <NewCardCollection onCreate={handleCreate}/>
-            <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                open={open}
-                autoHideDuration={3000}
-                onClose={handleClose}
-                message="Your collection has been successfully added!"
-                key={'onCreate'}
-            />
-        </Box>
-    );
+
+    if (!user) {
+        return (
+            <PageNotFound/>
+        )
+    } else {
+        return (
+            <Box sx={{
+                paddingTop: '50px',
+                paddingLeft: '10px',
+                width: 'auto',
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                gap: '30px'
+            }}>
+                {myCollections.map(item => (
+                    <Item key={item._id}>
+                        <Link style={{ textDecoration: 'none' }} to={`/collection/${item._id}`}>
+                            <CardCollection collection={item}/>
+                        </Link>
+                    </Item>))}
+
+                <NewCardCollection onCreate={handleCreate}/>
+
+                <Snackbar
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                    open={open}
+                    autoHideDuration={3000}
+                    onClose={handleClose}
+                    message="Your collection has been successfully added!"
+                    key={'onCreate'}
+                />
+            </Box>
+        );
+    }
+
+
 }

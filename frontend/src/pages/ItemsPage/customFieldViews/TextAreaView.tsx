@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
+import ReactMarkdown from 'react-markdown'
 
 
 interface TextAreaStringProps {
@@ -15,7 +16,7 @@ export const TextAreaView: React.FC<TextAreaStringProps> = (props) => {
                 paddingLeft: '20px',
                 fontSize: '20pt'
             }}>
-                <strong>{props.name}</strong> {props.value}
+                <strong>{props.name}</strong> <ReactMarkdown>{props.value}</ReactMarkdown>
             </Typography>
         </Grid>
     );

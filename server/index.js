@@ -20,6 +20,7 @@ const axios = require('axios');
 const bodyParser = require('body-parser');
 const uploadAzure = require('./blob/blob');
 const multer = require('multer');
+const {getAllTags} = require("./database/tagsService");
 const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 
@@ -47,17 +48,17 @@ app.get('/collections/my', checkJwt, async (req, res) => {
     const myCollections = await getMyCollections(req.user.sub);
     res.json(myCollections);
 });
+app.get('/collections/top', async (req, res) => {
+    const collections = await getTopCollections();
+    res.json(collections);
+})
+
 
 app.get('/collections/:id', async (req, res) => {
     const myCollection = await getMyCollectionsIdDb(req.params.id);
     res.json(myCollection);
 });
 
-
-app.get('/collections/top', async (req, res) => {
-    const collections = await getTopCollections();
-    res.json(collections);
-})
 
 app.post('/collections/my', checkJwt, async (req, res) => {
     const newCollections = req.body.values;
@@ -85,17 +86,20 @@ app.post('/items', async (req, res) => {
     res.json(response);
 });
 
-app.post('/collection/items', async (req, res) => {
-    const collectionId = req.body.id;
-    const response = await getItems(collectionId);
+app.get('/collection/items/:id', async (req, res) => {
+    const response = await getItems(req.params.id);
     res.json(response);
 });
 
-app.post('/item', async (req, res) => {
-    const myCollection = await getMyItemIdDb(req.body.id);
+app.get('/item/:id', async (req, res) => {
+    const myCollection = await getMyItemIdDb(req.params.id);
     res.json(myCollection);
 });
 
+app.get('/items/tags', async (req, res) => {
+    const tags = await getAllTags();
+    res.json(tags);
+})
 
 app.listen(port, () => {
     console.log('start server');

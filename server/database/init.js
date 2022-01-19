@@ -28,7 +28,8 @@ const itemsSchema = new mongoose.Schema({
     category: String,
     customField: Object,
     date: Object,
-    userNickname:String
+    userNickname:String,
+    tags:Object,
 })
 
 const Collection = mongoose.model('collections', collectionsSchema);

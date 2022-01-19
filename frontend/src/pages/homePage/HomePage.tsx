@@ -1,23 +1,31 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { TopCollections } from './topCollectionsItems/TopCollections';
-import {RecentItems} from "./topCollectionsItems/RecentItems";
+import { RecentItems } from "./topCollectionsItems/RecentItems";
 import Box from '@mui/material/Box';
 
 export default function HomePage() {
     return (
         <div>
-            <div>
-                <h2>Top Collections</h2>
-                <TopCollections />
-            </div>
             <Box sx={{
-                paddingTop: '50px',
+                paddingTop: '20px',
                 paddingLeft: '10px',
-                width:'100%'
+                paddingBottom: '50px',
+                width: '100%',
+                height: 'auto'
 
             }}>
+                <h2>Top Collections</h2>
+                <TopCollections/>
+            </Box>
+            <Box sx={{
+                paddingTop: '10px',
+                paddingLeft: '10px',
+                width: '100%',
+                height: 'auto',
+                paddingBottom: '50px',
+            }}>
                 <h2>Recent Items</h2>
-                <RecentItems items={[]}/>
+                <RecentItems/>
             </Box>
 
         </div>

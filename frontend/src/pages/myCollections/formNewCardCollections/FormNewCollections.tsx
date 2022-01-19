@@ -12,6 +12,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { CustomFieldType } from "../../../models/customFields";
+import ReactMarkdown from "react-markdown";
+
 
 
 interface FormNewCollectionsProps {
@@ -102,12 +104,12 @@ export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => 
 
                     <Dropzone onUpload={handleFileUpload}/>
 
-                    <FormikControl
-                        control='textarea'
-                        label='Description:'
-                        name='description'
-                        style='form-control'
-                    />
+                        <FormikControl
+                            control='textarea'
+                            label='Description (supported Markdown):'
+                            name='description'
+                            style='form-control'
+                        />
 
                     <FieldArray name="customFields">
                         {({ insert, remove, push }) => (

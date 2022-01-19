@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { CustomFieldView } from 'pages/ItemsPage/customFieldViews/CustomFieldView';
+import { ChipTag } from "../../components/ChipTag";
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -21,7 +22,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 export const ItemInfo = (props) => {
-    const { title, srcImg, description, collectionTitle, collectionId, customField } = props.item;
+    const { title, srcImg, collectionTitle, collectionId, customField, tags } = props.item;
 
     return (
         <Box sx={{
@@ -62,6 +63,13 @@ export const ItemInfo = (props) => {
                             {customField.map(item => <CustomFieldView item={item}/>)}
                         </Grid>
                     </Item>
+                    <Grid item xs={8}>
+                        <Grid container item spacing={1} sx={{
+                            paddingLeft: '10px'
+                        }}>
+                            {tags.map(tag => <ChipTag tag={tag}/>)}
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
         </Box>

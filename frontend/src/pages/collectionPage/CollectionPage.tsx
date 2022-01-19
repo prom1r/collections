@@ -40,7 +40,8 @@ export const CollectionPage = () => {
             <CollectionHeader collection={collection} itemsCount={itemsCount}/>
             <CollectionItems collectionId={collectionId}
                              collectionTitle={collection.title}
-                            customField={collection.customFields}/>
+                            customField={collection.customFields}
+                            userId={collection.userId}/>
         </div>
     );
 

@@ -8,12 +8,9 @@ import formatRelative from "date-fns/formatRelative";
 
 const Item = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    boxShadow: '0px 0px 0px 0px',
-    border:'2px solid',
     minWidth:'300px',
-    maxWidth:'400px'
+    maxWidth:'400px',
+    boxShadow:  '0 1px 3px rgba(0, 0, 0, .4)'
 }));
 
 const Img = styled('img')({
@@ -30,22 +27,32 @@ export const RecentCardItem = (props) => {
 
     return (
         <Item>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} >
                 <Grid item>
                     <ButtonBase sx={{ width: 128, height: 128 }}>
                         <Img alt="complex" src={srcImg}/>
                     </ButtonBase>
                 </Grid>
                 <Grid item xs={12} sm container>
-                    <Grid item xs container direction="column" spacing={2}>
-                        <Grid item xs>
-                            <Typography gutterBottom variant="subtitle1" component="div">
+                    <Grid  direction="column" container spacing={1}>
+                        <Grid sx={{
+                            textAlign:'left'
+                        }}>
+
+                            <Typography  sx={{
+                                paddingTop:'10px',
+                                fontSize:'20pt'
+                            }}>
                                 {title}
                             </Typography>
-                            <Typography variant="body2" gutterBottom>
+                            <Typography sx={{
+                                paddingTop:'10px'
+                            }}>
                                 {resultDate}
                             </Typography>
-                            <Typography variant="body2" color="text.secondary">
+                            <Typography  sx={{
+                                paddingTop:'10px'
+                            }}>
                                 {userNickname}
                             </Typography>
                         </Grid>

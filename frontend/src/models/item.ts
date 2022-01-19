@@ -9,4 +9,5 @@ export interface Item {
     like: number;
     date: object;
     userNickname:string;
+    tags:any
 }

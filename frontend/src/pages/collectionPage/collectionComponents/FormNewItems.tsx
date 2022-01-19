@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { FormikControl } from "../../../components/formikControl/FormikControl";
 import { Formik, Form } from 'formik';
@@ -9,16 +9,28 @@ import { Item } from "../../../models/item";
 import Grid from '@mui/material/Grid';
 import { CustomFieldControl } from "../../../components/customFieldControl/CustomFieldControl";
 import { useAuth0 } from '@auth0/auth0-react';
+import { Tags } from "./Tags";
+import { getTags } from "../../../api/tagsService";
 
 
 export const FormNewItems = (props) => {
     const [url, setUrl] = useState(null);
+    const [tags, setTags] = useState([]);
     const { user } = useAuth0();
+
+
+
+    useEffect(() => {
+        getTags().then((result) => {
+            setTags(result);
+        })
+    }, [])
 
 
     const initialValues = {
         title: '',
-        customField: props.customField
+        customField: props.customField,
+        tags: []
     }
 
     function setValues(index, values) {
@@ -79,6 +91,9 @@ export const FormNewItems = (props) => {
                             </Grid>
                         </Grid>
                     ))}
+                    <Grid xs={16}>
+                        <Tags formik={formik} tags={tags}/>
+                    </Grid>
                     <Button
                         type="submit"
                         disabled={!formik.isValid}

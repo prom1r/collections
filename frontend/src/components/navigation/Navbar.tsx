@@ -17,7 +17,7 @@ export default function Navbar() {
                     <Typography align="left" width="auto" variant="h5" component="div" sx={{ flexGrow: 1 }}>
                         <Link style={{ textDecoration: 'none' }} to="/">
                             <Button style={{ color: '#FFFFFF' }}>
-                                <h2>MY COLLECTIONS</h2>
+                                <h2>COLLECTOR</h2>
                             </Button>
                         </Link>
                     </Typography>

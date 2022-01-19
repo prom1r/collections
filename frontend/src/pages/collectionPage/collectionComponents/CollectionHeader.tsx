@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import FaceIcon from '@mui/icons-material/Face';
+import ReactMarkdown from "react-markdown";
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -44,7 +45,7 @@ export const CollectionHeader = (props) => {
                             {title}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            {description}
+                            <ReactMarkdown>{description}</ReactMarkdown>
                         </Typography>
                         <Stack direction="row" spacing={2}>
                             <Item>
