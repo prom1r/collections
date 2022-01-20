@@ -25,5 +25,11 @@ const getMyCollectionsIdDb = async (id) => {
     return myCollection;
 }
 
+const updateCollection = async (collection, id,) => {
+    await Collection.findOneAndUpdate({_id: id}, collection);
+    const newCollection = await Collection.findById(id)
+    return newCollection
+}
 
-module.exports = {getTopCollections, getMyCollections, postCollections, getMyCollectionsIdDb}
+
+module.exports = {getTopCollections, getMyCollections, postCollections, getMyCollectionsIdDb, updateCollection}

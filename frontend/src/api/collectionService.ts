@@ -27,3 +27,12 @@ export const postNewCollections = async (token, values) => {
     })
     return response.data;
 }
+
+export const putUpdateCollections = async (token, values,id) => {
+    const response = await axios.put(`${BACKEND_URL}/collection/${id}`, { values }, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    return response.data;
+}

@@ -25,7 +25,7 @@ export const CollectionPage = () => {
             setItemsCount(result.length)
         })
 
-    }, [])
+    }, [collection])
 
 
     if (!isLoaded) {

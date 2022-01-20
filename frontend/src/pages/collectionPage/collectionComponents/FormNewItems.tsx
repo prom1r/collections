@@ -11,13 +11,13 @@ import { CustomFieldControl } from "../../../components/customFieldControl/Custo
 import { useAuth0 } from '@auth0/auth0-react';
 import { Tags } from "./Tags";
 import { getTags } from "../../../api/tagsService";
+import Typography from '@mui/material/Typography';
 
 
 export const FormNewItems = (props) => {
     const [url, setUrl] = useState(null);
     const [tags, setTags] = useState([]);
     const { user } = useAuth0();
-
 
 
     useEffect(() => {
@@ -91,6 +91,11 @@ export const FormNewItems = (props) => {
                             </Grid>
                         </Grid>
                     ))}
+
+                        <Typography variant="h6"  component="div" textAlign='center' >
+                            TAGS
+                        </Typography>
+
                     <Grid xs={16}>
                         <Tags formik={formik} tags={tags}/>
                     </Grid>

@@ -9,6 +9,12 @@ import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import FaceIcon from '@mui/icons-material/Face';
 import ReactMarkdown from "react-markdown";
+import Button from '@mui/material/Button';
+import Drawer from '@mui/material/Drawer';
+import Backdrop from "@mui/material/Backdrop";
+import { FormNewCollections } from "../../myCollections/formNewCardCollections/FormNewCollections";
+import { isAdmin } from "../../../models/users";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -21,7 +27,12 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 export const CollectionHeader = (props) => {
-    const { _id, title, srcImg, category, description } = props.collection;
+    const { user } = useAuth0();
+    const { _id, title, srcImg, category, description, userId } = props.collection;
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
 
     return (
         <Box sx={{
@@ -41,9 +52,34 @@ export const CollectionHeader = (props) => {
                 </Grid>
                 <Grid item xs={8}>
                     <Item>
-                        <Typography gutterBottom variant="h2" component="h2">
-                            {title}
-                        </Typography>
+                        <Grid container spacing={2}>
+                            <Grid item xs={9}>
+                                <Typography gutterBottom variant="h2" component="h2">
+                                    {title}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={3}>
+                                {(user && user.sub == userId || isAdmin(user)) &&
+                                    <Button onClick={handleOpen} variant="contained">Edit Collection</Button>
+                                }
+                                <Drawer
+                                    aria-labelledby="transition-modal-title"
+                                    aria-describedby="transition-modal-description"
+                                    anchor={'right'}
+                                    open={open}
+                                    onClose={handleClose}
+                                    closeAfterTransition
+                                    BackdropComponent={Backdrop}
+                                    BackdropProps={{
+                                        timeout: 500,
+                                    }}
+                                >
+                                    <div className='formik'>
+                                        <FormNewCollections onClose={handleClose} collection={props.collection}/>
+                                    </div>
+                                </Drawer>
+                            </Grid>
+                        </Grid>
                         <Typography variant="body2" color="text.secondary">
                             <ReactMarkdown>{description}</ReactMarkdown>
                         </Typography>

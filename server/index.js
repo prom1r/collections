@@ -7,7 +7,8 @@ const {
     getTopCollections,
     getMyCollections,
     postCollections,
-    getMyCollectionsIdDb
+    getMyCollectionsIdDb,
+    updateCollection
 } = require('./database/collectionService');
 const {
     postItems,
@@ -48,6 +49,7 @@ app.get('/collections/my', checkJwt, async (req, res) => {
     const myCollections = await getMyCollections(req.user.sub);
     res.json(myCollections);
 });
+
 app.get('/collections/top', async (req, res) => {
     const collections = await getTopCollections();
     res.json(collections);
@@ -67,6 +69,19 @@ app.post('/collections/my', checkJwt, async (req, res) => {
     const response = await postCollections(newCollections);
     res.json(response)
 });
+
+
+
+
+app.put('/collection/:id', checkJwt, async (req, res) => {
+    const newCollections = req.body.values;
+    const userId = req.params.id
+    const response = await updateCollection(newCollections,userId);
+    res.json(response)
+});
+
+
+
 
 
 app.get('/items/recent', async (req, res) => {

@@ -29,20 +29,28 @@ export const TopCollections = (props) => {
     return (
         <Box sx={{
             width: '0 auto',
-            height: 'auto',
+            height: '100%',
             backgroundColor: 'grow',
-            marginLeft: '100px',
-            marginTop: '50px',
+            marginLeft: '10px',
+            marginTop: '30px',
+
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            alignContent: 'flex-start',
+            justifyContent: 'space-between',
+            gap: '30px',
+
         }}
         >
-            <Stack direction="row" spacing={2}>
+            {/*<Stack direction="row" spacing={2}>*/}
                 {collections.map((item, index) => (
                     <Item key={index}>
                         <Link style={{ textDecoration: 'none' }} to={`/collection/${item._id}`}>
                             <CardCollection collection={item}/>
                         </Link>
                     </Item>))}
-            </Stack>
+            {/*</Stack>*/}
         </Box>
 
     );

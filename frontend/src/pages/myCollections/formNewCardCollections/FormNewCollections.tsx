@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import * as Yup from 'yup';
 import { FormikControl } from "../../../components/formikControl/FormikControl";
 import Button from '@mui/material/Button';
 import { useAuth0 } from "@auth0/auth0-react";
-import { postNewCollections } from "../../../api/collectionService";
+import { postNewCollections, putUpdateCollections } from "../../../api/collectionService";
 import { Dropzone } from "../../../components/Dropzone";
 import { Collection } from "../../../models/collections";
 import { Formik, Form, FieldArray, Field, ErrorMessage } from 'formik';
@@ -12,19 +12,17 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { CustomFieldType } from "../../../models/customFields";
-import ReactMarkdown from "react-markdown";
-
-
 
 interface FormNewCollectionsProps {
-    onCreate: (collection) => void;
+    onCreate?: (collection) => void;
     onClose: () => void;
+    collection?: Collection;
 }
-
 
 export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => {
     const { getAccessTokenSilently } = useAuth0();
     const [url, setUrl] = useState(null);
+    let buttonName = props.collection ? 'Edit' : 'Save'
 
     const dropdownOptions = [
         { key: 'Category', value: '' },
@@ -43,18 +41,28 @@ export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => 
         { key: 'Date', value: CustomFieldType.Date },
     ]
 
-
-    const initialValues = {
-        title: '',
-        description: '',
-        category: '',
-        customFields: [
-            {
-                name: '',
-                type: CustomFieldType.String,
-            },
-        ],
+    let initialValues;
+    if (!props.collection) {
+        initialValues = {
+            title: '',
+            description: '',
+            category: '',
+            customFields: [
+                {
+                    name: '',
+                    type: CustomFieldType.String,
+                },
+            ],
+        }
+    } else {
+        initialValues = {
+            title: `${props.collection.title}`,
+            description: `${props.collection.description}`,
+            category: `${props.collection.category}`,
+            customFields: props.collection.customFields,
+        }
     }
+
 
     const validationSchema = Yup.object({
         title: Yup.string()
@@ -67,16 +75,24 @@ export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => 
         setUrl(url);
     }
 
+
     const onSubmit = async (values: Partial<Collection>) => {
         try {
             const token = await getAccessTokenSilently();
             values.srcImg = url;
-            const item = await postNewCollections(token, values);
-            props.onCreate(item);
+            if (!props.collection) {
+                const item = await postNewCollections(token, values);
+                props.onCreate(item);
+            } else {
+                const item = await putUpdateCollections(token, values, props.collection._id);
+
+            }
+
         } catch (e) {
             console.error(e);
         }
     }
+
 
     return (
         <Formik
@@ -104,12 +120,12 @@ export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => 
 
                     <Dropzone onUpload={handleFileUpload}/>
 
-                        <FormikControl
-                            control='textarea'
-                            label='Description (supported Markdown):'
-                            name='description'
-                            style='form-control'
-                        />
+                    <FormikControl
+                        control='textarea'
+                        label='Description (supported Markdown):'
+                        name='description'
+                        style='form-control'
+                    />
 
                     <FieldArray name="customFields">
                         {({ insert, remove, push }) => (
@@ -160,8 +176,9 @@ export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => 
                         type="submit"
                         disabled={!formik.isValid}
                         variant="outlined">
-                        Save
+                        {buttonName}
                     </Button>
+
 
                     <Button sx={{
                         marginLeft: 3

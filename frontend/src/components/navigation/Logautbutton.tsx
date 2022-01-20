@@ -11,11 +11,6 @@ const LogoutButton = () => {
             <Button color="inherit" onClick={() => logout({ returnTo: window.location.origin })}>
                 Log Out
             </Button>
-            <div>
-                <Link style={{ textDecoration: 'none' }} to="/collections/my">
-                    <Button style={{ color: '#FFFFFF'}} variant="text" startIcon={<CollectionsIcon />}>My Collections</Button>
-                </Link>
-            </div>
         </div>
     );
 };
