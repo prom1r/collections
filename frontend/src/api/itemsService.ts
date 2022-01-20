@@ -24,4 +24,13 @@ export const getMyItemId = async (id) => {
     return response.data;
 }
 
+export const putUpdateItem = async (token, values,id) => {
+    const response = await axios.put(`${BACKEND_URL}/item/${id}`, { values }, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    return response.data;
+}
+
 

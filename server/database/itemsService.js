@@ -1,4 +1,4 @@
-const {Item} = require("./init");
+const {Item, Collection} = require("./init");
 
 const postItems = async (item) => {
     const newItem = new Item(item);
@@ -26,4 +26,16 @@ const getRecentItems = async () => {
     return item;
 }
 
-module.exports = {postItems, getItems, getMyItemIdDb, getRecentItems}
+const getIdDbItem = async (id) => {
+    const idUser = await Collection.findById(id);
+    return idUser
+}
+
+
+const updateItem = async (item, id,) => {
+    await Item.findOneAndUpdate({_id: id}, item);
+    const newItem = await Item.findById(id)
+    return newItem
+}
+
+module.exports = {postItems, getItems, getMyItemIdDb, getRecentItems,updateItem,getIdDbItem}

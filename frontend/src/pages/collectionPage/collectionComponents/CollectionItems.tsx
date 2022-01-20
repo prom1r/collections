@@ -23,6 +23,7 @@ export const CollectionItems = (props) => {
     const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false);
 
+
     const handleCreate = (newCollection) => {
         items.splice(0, 0, newCollection);
         const newMyItems = items.slice();

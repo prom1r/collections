@@ -3,16 +3,17 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 
 
 interface TextareaFormmProps {
-    setValues: any;
     index: number;
     name: string;
     formik: any;
+    values:string;
 }
 
 export const TextareaForm: React.FC<TextareaFormmProps> = (props) => {
-    props.setValues(props.index, props.formik.values[props.name])
     return (
         <TextareaAutosize
+            name={`customField.${props.index}.value`}
+            value={props.values}
             id={props.name}
             onChange={props.formik.handleChange}
             aria-label="empty textarea"

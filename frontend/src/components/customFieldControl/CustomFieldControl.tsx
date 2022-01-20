@@ -9,8 +9,8 @@ import { NumberForm } from './NumberForm';
 interface CustomFieldControlProps {
     item: CustomField;
     formik: object;
-    setValues: any;
     index: number;
+    values:any
 }
 
 export const CustomFieldControl: React.FC<CustomFieldControlProps> = (props) => {
@@ -18,29 +18,36 @@ export const CustomFieldControl: React.FC<CustomFieldControlProps> = (props) => 
 
     switch (type) {
         case CustomFieldType.String:
-            return <TextFieldForm name={name}
+            return <TextFieldForm
+                name={name}
                 formik={props.formik}
-                setValues={props.setValues}
-                index={props.index} />
+                index={props.index}
+                values={props.values}
+            />
         case CustomFieldType.Boolean:
-            return <CheckboxForm 
-                setValues={props.setValues}
-                index={props.index} />
+            return <CheckboxForm
+                index={props.index}
+                values={props.values}
+                formik={props.formik}/>
         case CustomFieldType.Text:
-            return <TextareaForm name={name}
+            return <TextareaForm
+                name={name}
                 formik={props.formik}
-                setValues={props.setValues}
-                index={props.index} />
+                index={props.index}
+                values={props.values}/>
         case CustomFieldType.Date:
-            return <DateForm name={name}
+            return <DateForm
+                name={name}
+                values={props.values}
                 formik={props.formik}
-                setValues={props.setValues}
-                index={props.index} />
+                index={props.index}/>
         case CustomFieldType.Number:
-            return <NumberForm name={name}
+            return <NumberForm
+                name={name}
                 formik={props.formik}
-                setValues={props.setValues}
-                index={props.index} />
+                index={props.index}
+                values={props.values}
+            />
         default:
             return null
     }

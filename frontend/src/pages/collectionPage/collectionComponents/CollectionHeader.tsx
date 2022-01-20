@@ -16,6 +16,7 @@ import { FormNewCollections } from "../../myCollections/formNewCardCollections/F
 import { isAdmin } from "../../../models/users";
 import { useAuth0 } from "@auth0/auth0-react";
 
+
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -33,6 +34,10 @@ export const CollectionHeader = (props) => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const onClose = (value) =>{
+        props.onClose(value);
+        handleClose()
+    }
 
     return (
         <Box sx={{
@@ -75,7 +80,7 @@ export const CollectionHeader = (props) => {
                                     }}
                                 >
                                     <div className='formik'>
-                                        <FormNewCollections onClose={handleClose} collection={props.collection}/>
+                                        <FormNewCollections onClose={onClose} collection={props.collection}/>
                                     </div>
                                 </Drawer>
                             </Grid>

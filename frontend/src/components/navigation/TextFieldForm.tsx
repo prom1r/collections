@@ -1,24 +1,24 @@
-import React,{FC} from 'react';
+import React, { FC } from 'react';
 import TextField from '@mui/material/TextField';
 
 interface TextFieldFormProps {
-    setValues: any;
     index: number;
-    name:string;
-    formik:any;
+    name: string;
+    formik: any;
+    values:string;
 }
 
-export const TextFieldForm:React.FC<TextFieldFormProps> = (props) => {
-    props.setValues(props.index,props.formik.values[props.name])
- 
+export const TextFieldForm: React.FC<TextFieldFormProps> = (props) => {
+
     return (
         <div>
             <TextField sx={{
-                width:'13em'
+                width: '13em'
             }}
-                id={props.name}
-                name={props.name}
-                onChange={props.formik.handleChange}
+                       id={props.name}
+                       name={`customField.${props.index}.value`}
+                       onChange={props.formik.handleChange}
+                       value={props.values}
             />
         </div>
     );

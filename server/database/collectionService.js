@@ -25,6 +25,12 @@ const getMyCollectionsIdDb = async (id) => {
     return myCollection;
 }
 
+
+const getIdDb = async (id) => {
+    const idUser = await Collection.findById(id);
+    return idUser
+}
+
 const updateCollection = async (collection, id,) => {
     await Collection.findOneAndUpdate({_id: id}, collection);
     const newCollection = await Collection.findById(id)
@@ -32,4 +38,4 @@ const updateCollection = async (collection, id,) => {
 }
 
 
-module.exports = {getTopCollections, getMyCollections, postCollections, getMyCollectionsIdDb, updateCollection}
+module.exports = {getTopCollections, getMyCollections, postCollections, getMyCollectionsIdDb, updateCollection, getIdDb}

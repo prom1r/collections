@@ -15,7 +15,7 @@ import { CustomFieldType } from "../../../models/customFields";
 
 interface FormNewCollectionsProps {
     onCreate?: (collection) => void;
-    onClose: () => void;
+    onClose: (value) => void;
     collection?: Collection;
 }
 
@@ -85,9 +85,8 @@ export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => 
                 props.onCreate(item);
             } else {
                 const item = await putUpdateCollections(token, values, props.collection._id);
-
+                props.onClose(item);
             }
-
         } catch (e) {
             console.error(e);
         }

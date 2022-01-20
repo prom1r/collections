@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 
 export const Tags = (props) => {
-
+console.log(props.tags)
     return (
         <Stack sx={{
             width: '430px'
@@ -18,6 +18,7 @@ export const Tags = (props) => {
                           id="tags-filled"
                           size="medium"
                           options={props.tags}
+                          defaultValue={props.formik.initialValues.tags}
                           freeSolo
                           renderTags={(value, getTagProps) =>
                               value.map((option, index) => (

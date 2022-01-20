@@ -4,7 +4,7 @@ import { FormikControl } from "../../../components/formikControl/FormikControl";
 import { Formik, Form } from 'formik';
 import Button from '@mui/material/Button';
 import { Dropzone } from "../../../components/Dropzone";
-import { postNewItems } from "../../../api/itemsService";
+import { postNewItems, putUpdateItem } from "../../../api/itemsService";
 import { Item } from "../../../models/item";
 import Grid from '@mui/material/Grid';
 import { CustomFieldControl } from "../../../components/customFieldControl/CustomFieldControl";
@@ -17,7 +17,8 @@ import Typography from '@mui/material/Typography';
 export const FormNewItems = (props) => {
     const [url, setUrl] = useState(null);
     const [tags, setTags] = useState([]);
-    const { user } = useAuth0();
+    const { getAccessTokenSilently, user } = useAuth0();
+    const buttonName = props.item ? 'Edit' : 'Save'
 
 
     useEffect(() => {
@@ -26,17 +27,27 @@ export const FormNewItems = (props) => {
         })
     }, [])
 
+    let initialValues;
 
-    const initialValues = {
-        title: '',
-        customField: props.customField,
-        tags: []
+    if (!props.item) {
+        initialValues = {
+            title: '',
+            customField: props.customField,
+            tags: []
+        }
+    } else {
+        initialValues = {
+            title: `${props.item.title}`,
+            customField: props.item.customField.map(x => ({ ...x })),
+            tags: props.item.tags
+        }
     }
 
-    function setValues(index, values) {
-        initialValues.customField[index]['value'] = values;
-    }
 
+    //
+    // function setValues(index, values) {
+    //     initialValues.customField[index]['value'] = values;
+    // }
 
     const validationSchema = Yup.object({
         title: Yup.string()
@@ -46,17 +57,22 @@ export const FormNewItems = (props) => {
     const handleFileUpload = (url) => {
         setUrl(url);
     }
-
     const onSubmit = async (values: Item) => {
         try {
-            const date = new Date();
-            values.collectionId = props.collectionId;
-            values.srcImg = url;
-            values.collectionTitle = props.collectionTitle;
-            values.date = date;
-            values.userNickname = user.nickname;
-            const item = await postNewItems(values);
-            props.onCreate(item);
+            if (!props.item) {
+                const date = new Date();
+                values.collectionId = props.collectionId;
+                values.srcImg = url;
+                values.collectionTitle = props.collectionTitle;
+                values.date = date;
+                values.userNickname = user.nickname;
+                const item = await postNewItems(values);
+                props.onCreate(item);
+            } else {
+                const token = await getAccessTokenSilently();
+                const item = await putUpdateItem(token, values, props.item._id)
+                props.onClose(item);
+            }
         } catch (e) {
             console.error(e);
         }
@@ -84,17 +100,19 @@ export const FormNewItems = (props) => {
                                 <h3>{item.name}</h3>
                             </Grid>
                             <Grid item xs={6}>
+                                {/*{JSON.stringify(formik.values)}*/}
                                 <CustomFieldControl index={index}
                                                     item={item}
                                                     formik={formik}
-                                                    setValues={setValues}/>
+                                                    values={formik.values.customField[index].value}
+                                />
                             </Grid>
                         </Grid>
                     ))}
 
-                        <Typography variant="h6"  component="div" textAlign='center' >
-                            TAGS
-                        </Typography>
+                    <Typography variant="h6" component="div" textAlign='center'>
+                        TAGS
+                    </Typography>
 
                     <Grid xs={16}>
                         <Tags formik={formik} tags={tags}/>
@@ -103,7 +121,7 @@ export const FormNewItems = (props) => {
                         type="submit"
                         disabled={!formik.isValid}
                         variant="outlined">
-                        Save
+                        {buttonName}
                     </Button>
                     <Button sx={{
                         marginLeft: 3

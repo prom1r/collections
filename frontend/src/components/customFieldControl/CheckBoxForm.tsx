@@ -1,24 +1,24 @@
-import React, {useState,FC} from 'react';
+import React, { useState, FC } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 
 interface CheckboxFormProps {
-  setValues: any;
-  index: number;
+    index: number;
+    values: any;
+    formik: any;
 }
 
-export const CheckboxForm:React.FC<CheckboxFormProps> = (props) => {
-  const [checked, setChecked] = useState(true);
-  props.setValues(props.index, checked)
+export const CheckboxForm: React.FC<CheckboxFormProps> = (props) => {
 
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
-  };
+    const handleChange = (event) => {
+        props.formik.handleChange(event);
+    };
 
-  return (
-    <Checkbox
-      checked={checked}
-      onChange={handleChange}
-      inputProps={{ 'aria-label': 'controlled' }}
-    />
-  );
+    return (
+        <Checkbox
+            name={`customField.${props.index}.value`}
+            checked={props.values}
+            onChange={handleChange}
+            inputProps={{ 'aria-label': 'controlled' }}
+        />
+    );
 }
