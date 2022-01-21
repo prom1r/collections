@@ -13,7 +13,6 @@ export const ItemPage = () => {
     const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false);
 
-
     const onClose = (value) => {
         setOpen(true);
         setItem(value);

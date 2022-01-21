@@ -15,6 +15,13 @@ import Backdrop from "@mui/material/Backdrop";
 import { FormNewCollections } from "../../myCollections/formNewCardCollections/FormNewCollections";
 import { isAdmin } from "../../../models/users";
 import { useAuth0 } from "@auth0/auth0-react";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { getMyItems } from "../../../api/itemsService";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogActions from "@mui/material/DialogActions";
+import { deleteCollectionId } from "../../../api/collectionService";
+import { useNavigate } from "react-router-dom";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -28,13 +35,41 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 export const CollectionHeader = (props) => {
-    const { user } = useAuth0();
+    const { getAccessTokenSilently, user } = useAuth0();
+    const navigate = useNavigate();
     const { _id, title, srcImg, category, description, userId } = props.collection;
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [openError, setOpenError] = React.useState(false);
 
-    const onClose = (value) =>{
+    const handleCloseError = () => {
+        setOpenError(false);
+    };
+
+    const [openModal, setOpenModal] = React.useState(false);
+    const handleOpenModal = () => {
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
+
+    const handleDeleteCloseModal = async () => {
+        let countItems = await getMyItems(_id);
+        if (countItems.length > 0) {
+            setOpenModal(false)
+            setOpenError(true)
+        } else {
+            const token = await getAccessTokenSilently();
+            await deleteCollectionId(_id, token);
+            navigate('/collections/my');
+        }
+        setOpenModal(false);
+    }
+
+    const onClose = (value) => {
         props.onClose(value);
         handleClose()
     }
@@ -58,15 +93,29 @@ export const CollectionHeader = (props) => {
                 <Grid item xs={8}>
                     <Item>
                         <Grid container spacing={2}>
-                            <Grid item xs={9}>
+                            <Grid item xs={8}>
                                 <Typography gutterBottom variant="h2" component="h2">
                                     {title}
                                 </Typography>
                             </Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={4}>
+
                                 {(user && user.sub == userId || isAdmin(user)) &&
                                     <Button onClick={handleOpen} variant="contained">Edit Collection</Button>
                                 }
+
+                                {(user && user.sub == userId || isAdmin(user)) &&
+                                    <Button sx={{
+                                        marginLeft: '20px'
+                                    }}
+                                            variant="contained"
+                                            color='error'
+                                            startIcon={<DeleteIcon fontSize='large'/>}
+                                            onClick={handleOpenModal}>
+                                        Delete Collection
+                                    </Button>
+                                }
+
                                 <Drawer
                                     aria-labelledby="transition-modal-title"
                                     aria-describedby="transition-modal-description"
@@ -83,6 +132,41 @@ export const CollectionHeader = (props) => {
                                         <FormNewCollections onClose={onClose} collection={props.collection}/>
                                     </div>
                                 </Drawer>
+
+                                <Dialog
+                                    open={openModal}
+                                    onClose={handleCloseModal}
+                                    aria-labelledby="alert-dialog-title"
+                                    aria-describedby="alert-dialog-description"
+                                >
+                                    <DialogTitle id="alert-dialog-title">
+                                        {"You really want to delete this collection?"}
+                                    </DialogTitle>
+                                    <DialogActions>
+                                        <Button onClick={handleDeleteCloseModal}
+                                                color='error'
+                                                startIcon={<DeleteIcon fontSize='large'/>}
+                                        >
+                                            Delete
+                                        </Button>
+                                        <Button onClick={handleCloseModal} autoFocus>Close</Button>
+                                    </DialogActions>
+                                </Dialog>
+
+                                <Dialog
+                                    open={openError}
+                                    onClose={handleCloseError}
+                                    aria-labelledby="alert-dialog-title"
+                                    aria-describedby="alert-dialog-description"
+                                >
+                                    <DialogTitle id="alert-dialog-title">
+                                        {"Sorry but there are items in your collection "}
+                                    </DialogTitle>
+                                    <DialogActions>
+                                        <Button onClick={handleCloseError} autoFocus>Close</Button>
+                                    </DialogActions>
+                                </Dialog>
+                                
                             </Grid>
                         </Grid>
                         <Typography variant="body2" color="text.secondary">

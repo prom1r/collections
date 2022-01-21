@@ -27,7 +27,7 @@ const getRecentItems = async () => {
 }
 
 const getIdDbItem = async (id) => {
-    const idUser = await Collection.findById(id);
+    const idUser = await Item.findById(id);
     return idUser
 }
 
@@ -38,4 +38,11 @@ const updateItem = async (item, id,) => {
     return newItem
 }
 
-module.exports = {postItems, getItems, getMyItemIdDb, getRecentItems,updateItem,getIdDbItem}
+const deleteItem = async (id,) => {
+   const response = await Item.findByIdAndDelete(id);
+    return response
+}
+
+
+
+module.exports = {postItems, getItems, getMyItemIdDb, getRecentItems,updateItem,getIdDbItem,deleteItem}

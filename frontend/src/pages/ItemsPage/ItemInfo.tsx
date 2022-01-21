@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import EditIcon from '@mui/icons-material/Edit';
 import { CustomFieldView } from 'pages/ItemsPage/customFieldViews/CustomFieldView';
@@ -14,6 +14,15 @@ import { ChipTag } from "../../components/ChipTag";
 import Drawer from "@mui/material/Drawer";
 import Backdrop from "@mui/material/Backdrop";
 import { FormNewItems } from "../collectionPage/collectionComponents/FormNewItems";
+import DeleteIcon from '@mui/icons-material/Delete';
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
+import { deleteItemId } from "../../api/itemsService";
+import { useAuth0 } from "@auth0/auth0-react";
+import { isAdmin } from "../../models/users";
+
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -26,14 +35,31 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 export const ItemInfo = (props) => {
-    const { title, srcImg, collectionTitle, collectionId, customField, tags } = props.item;
+    const { getAccessTokenSilently, user } = useAuth0();
+    const navigate = useNavigate();
+    const { _id, title, srcImg, collectionTitle, collectionId, customField, tags, userId } = props.item;
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
 
+    const [openModal, setOpenModal] = React.useState(false);
+    const handleOpenModal = () => {
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
+
+    const handleDeleteCloseModal = async () => {
+        const token = await getAccessTokenSilently();
+        const itemDelete = await deleteItemId(_id, token);
+        navigate(`/collection/${collectionId}`);
+        setOpenModal(false);
+    }
+
     const onClose = (item) => {
-        handleClose();
         props.onClose(item);
 
     }
@@ -44,27 +70,45 @@ export const ItemInfo = (props) => {
             paddingTop: 3,
         }}>
             <Grid container spacing={1} paddingLeft='20px'>
-                <Grid item xs={10} textAlign='left'>
+                <Grid item xs={8} textAlign='left'>
                     <Link style={{ textDecoration: 'none' }} to={`/collection/${collectionId}`}>
                         <Button variant="contained" startIcon={<ArrowBackIosNewIcon fontSize='large'/>}>
                             Back to {collectionTitle}
                         </Button>
                     </Link>
                 </Grid>
-                <Grid item xs={2}>
-                    <Button
-                        onClick={handleOpen}
-                        variant="contained"
-                        startIcon={<EditIcon fontSize='large' />}
-                    >
-                        Edit Item
-                    </Button>
+                <Grid item xs={4}>
+
+
+                    {(user && user.sub == userId || isAdmin(user)) &&
+                        <Button
+                            onClick={handleOpen}
+                            variant="contained"
+                            startIcon={<EditIcon fontSize='large'/>}
+                        >
+                            Edit Item
+                        </Button>
+                    }
+
+                    {(user && user.sub == userId || isAdmin(user)) &&
+                        <Button sx={{
+                            marginLeft: '20px'
+                        }}
+                                variant="contained"
+                                color='error'
+                                startIcon={<DeleteIcon fontSize='large'/>}
+                                onClick={handleOpenModal}>
+                            Delete Item
+                        </Button>
+                    }
+
+
                     <Drawer
                         aria-labelledby="transition-modal-title"
                         aria-describedby="transition-modal-description"
                         anchor={'right'}
                         open={open}
-                        onClose={handleClose}
+                        onClose={handleCloseModal}
                         closeAfterTransition
                         BackdropComponent={Backdrop}
                         BackdropProps={{
@@ -77,9 +121,30 @@ export const ItemInfo = (props) => {
                                           collectionTitle={collectionTitle}
                                           collectionId={collectionId}
                                           onClose={onClose}
+                                          handleClose={handleClose}
                             />
                         </div>
                     </Drawer>
+
+                    <Dialog
+                        open={openModal}
+                        onClose={handleCloseModal}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">
+                            {"You really want to delete this item?"}
+                        </DialogTitle>
+                        <DialogActions>
+                            <Button onClick={handleDeleteCloseModal}
+                                    color='error'
+                                    startIcon={<DeleteIcon fontSize='large'/>}
+                            >
+                                Delete
+                            </Button>
+                            <Button onClick={handleCloseModal} autoFocus>Cansel</Button>
+                        </DialogActions>
+                    </Dialog>
 
                 </Grid>
             </Grid>

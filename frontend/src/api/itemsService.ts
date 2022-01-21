@@ -1,8 +1,12 @@
 import { BACKEND_URL } from "../const";
 import axios from "axios";
 
-export const postNewItems = async (values) => {
-    const response = await axios.post(`${BACKEND_URL}/items`, { values })
+export const postNewItems = async (values, token) => {
+    const response = await axios.post(`${BACKEND_URL}/items`, { values }, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
     return response.data;
 }
 
@@ -24,7 +28,7 @@ export const getMyItemId = async (id) => {
     return response.data;
 }
 
-export const putUpdateItem = async (token, values,id) => {
+export const putUpdateItem = async (token, values, id) => {
     const response = await axios.put(`${BACKEND_URL}/item/${id}`, { values }, {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -32,5 +36,20 @@ export const putUpdateItem = async (token, values,id) => {
     })
     return response.data;
 }
+
+export const deleteItemId = async (id, token) => {
+    const response = await axios.delete(`${BACKEND_URL}/item/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    return response.data
+}
+
+export const getCountItemsCollection = async (id) => {
+    const response = await axios.get(`${BACKEND_URL}collection/item/count/${id}`)
+    return response.data
+}
+
 
 

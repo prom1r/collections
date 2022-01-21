@@ -9,12 +9,17 @@ const {
     postCollections,
     getMyCollectionsIdDb,
     updateCollection,
-    getIdDb
+    getIdDbCollection,
+    deleteCollection
 } = require('./database/collectionService');
 const {
     postItems,
     getItems,
-    getMyItemIdDb, getRecentItems, getIdDbItem, updateItem
+    getMyItemIdDb,
+    getRecentItems,
+    getIdDbItem,
+    updateItem,
+    deleteItem
 } = require('./database/itemsService');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
@@ -76,7 +81,7 @@ app.post('/collections/my', checkJwt, async (req, res) => {
 app.put('/collection/:id', checkJwt, async (req, res) => {
     const userAuth0Idd = req.user.sub;
     const userId = req.params.id
-    const userCollectionId = await getIdDb(userId).then(res => res.userId);
+    const userCollectionId = await getIdDbCollection(userId).then(res => res.userId);
     const newCollections = req.body.values;
     if (userAuth0Idd == userCollectionId || isAdmin(req.user)) {
         const response = await updateCollection(newCollections, userId);
@@ -84,11 +89,25 @@ app.put('/collection/:id', checkJwt, async (req, res) => {
     }
 });
 
-app.put('/item/:id', checkJwt, async (req, res) => {
+app.delete('/collection/:id', checkJwt, async (req, res) => {
+    const userAuth0Idd = req.user.sub;
     const userId = req.params.id
+    const userCollectionId = await getIdDbCollection(userId).then(res => res.userId);
+    if (userAuth0Idd == userCollectionId || isAdmin(req.user)) {
+        const response = await deleteCollection(userId);
+        res.json(response);
+    }
+});
+
+app.put('/item/:id', checkJwt, async (req, res) => {
+    const itemId = req.params.id
     const newItem = req.body.values;
-    const response = await updateItem(newItem, userId);
-    res.json(response);
+    const userAuth0Idd = req.user.sub;
+    const userItemId = await getIdDbItem(itemId).then(res => res.userId);
+    if (userAuth0Idd == userItemId || isAdmin(req.user)) {
+        const response = await updateItem(newItem, itemId);
+        res.json(response);
+    }
 });
 
 app.get('/items/recent', async (req, res) => {
@@ -101,8 +120,10 @@ app.post('/upload', upload.single('image'), async (req, res) => {
     res.json({url});
 });
 
-app.post('/items', async (req, res) => {
+app.post('/items', checkJwt, async (req, res) => {
+    const userId = req.user.sub;
     const newItems = req.body.values;
+    newItems.userId = userId;
     const response = await postItems(newItems);
     res.json(response);
 });
@@ -115,6 +136,17 @@ app.get('/collection/items/:id', async (req, res) => {
 app.get('/item/:id', async (req, res) => {
     const myCollection = await getMyItemIdDb(req.params.id);
     res.json(myCollection);
+});
+
+app.delete('/item/:id', checkJwt, async (req, res) => {
+    const itemId = req.params.id;
+    const userAuth0Idd = req.user.sub;
+    const userItemId = await getIdDbItem(itemId).then(res => res.userId);
+    if (userAuth0Idd == userItemId || isAdmin(req.user)) {
+        const response = deleteItem(itemId);
+        res.json(response);
+    }
+
 });
 
 app.get('/items/tags', async (req, res) => {

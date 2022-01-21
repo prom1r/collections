@@ -43,12 +43,6 @@ export const FormNewItems = (props) => {
         }
     }
 
-
-    //
-    // function setValues(index, values) {
-    //     initialValues.customField[index]['value'] = values;
-    // }
-
     const validationSchema = Yup.object({
         title: Yup.string()
             .required('Required')
@@ -66,7 +60,8 @@ export const FormNewItems = (props) => {
                 values.collectionTitle = props.collectionTitle;
                 values.date = date;
                 values.userNickname = user.nickname;
-                const item = await postNewItems(values);
+                const token = await getAccessTokenSilently();
+                const item = await postNewItems(values,token);
                 props.onCreate(item);
             } else {
                 const token = await getAccessTokenSilently();
@@ -126,7 +121,7 @@ export const FormNewItems = (props) => {
                     <Button sx={{
                         marginLeft: 3
                     }}
-                            onClick={props.onClose}
+                            onClick={props.handleClose}
                             variant="outlined">
                         Close
                     </Button>

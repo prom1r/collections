@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 
 export const Tags = (props) => {
-console.log(props.tags)
+
     return (
         <Stack sx={{
             width: '430px'

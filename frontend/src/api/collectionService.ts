@@ -28,11 +28,20 @@ export const postNewCollections = async (token, values) => {
     return response.data;
 }
 
-export const putUpdateCollections = async (token, values,id) => {
+export const putUpdateCollections = async (token, values, id) => {
     const response = await axios.put(`${BACKEND_URL}/collection/${id}`, { values }, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
     })
     return response.data;
+}
+
+export const deleteCollectionId = async (id, token) => {
+    const response = await axios.delete(`${BACKEND_URL}/collection/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    return response.data
 }

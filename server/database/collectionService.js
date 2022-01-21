@@ -1,4 +1,4 @@
-const {Collection} = require('./init');
+const {Collection, Item} = require('./init');
 
 const getTopCollections = async () => {
     const collection = await Collection.find();
@@ -26,16 +26,29 @@ const getMyCollectionsIdDb = async (id) => {
 }
 
 
-const getIdDb = async (id) => {
+const getIdDbCollection = async (id) => {
     const idUser = await Collection.findById(id);
     return idUser
 }
 
 const updateCollection = async (collection, id,) => {
     await Collection.findOneAndUpdate({_id: id}, collection);
-    const newCollection = await Collection.findById(id)
+    const newCollection = await Collection.findById(id);
     return newCollection
 }
 
+const deleteCollection = async (id) => {
+    const response = await Collection.findByIdAndDelete(id);
+    return response
+}
 
-module.exports = {getTopCollections, getMyCollections, postCollections, getMyCollectionsIdDb, updateCollection, getIdDb}
+
+module.exports = {
+    getTopCollections,
+    getMyCollections,
+    postCollections,
+    getMyCollectionsIdDb,
+    updateCollection,
+    getIdDbCollection,
+    deleteCollection
+}
