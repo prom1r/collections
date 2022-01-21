@@ -22,6 +22,7 @@ export const NewCardItem = (props) => {
         handleClose()
     }
 
+
     return (
         <div>
             {(user && user.sub == props.userId || isAdmin(user)) &&

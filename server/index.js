@@ -29,6 +29,7 @@ const uploadAzure = require('./blob/blob');
 const multer = require('multer');
 const {getAllTags} = require("./database/tagsService");
 const {isAdmin} = require("./database/user");
+const {getUsers} = require("./auth0/usersService");
 const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 
@@ -62,7 +63,6 @@ app.get('/collections/top', async (req, res) => {
     const collections = await getTopCollections();
     res.json(collections);
 })
-
 
 app.get('/collections/:id', async (req, res) => {
     const myCollection = await getMyCollectionsIdDb(req.params.id);
@@ -146,13 +146,19 @@ app.delete('/item/:id', checkJwt, async (req, res) => {
         const response = deleteItem(itemId);
         res.json(response);
     }
-
 });
 
 app.get('/items/tags', async (req, res) => {
     const tags = await getAllTags();
     res.json(tags);
 });
+
+app.get('/users', checkJwt, async (req, res) => {
+    if (isAdmin(req.user)) {
+        const allUsers = await getUsers();
+        res.json(allUsers);
+    }
+})
 
 app.listen(port, () => {
     console.log('start server');

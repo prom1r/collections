@@ -61,6 +61,7 @@ export const ItemInfo = (props) => {
 
     const onClose = (item) => {
         props.onClose(item);
+        setOpen(false)
 
     }
 

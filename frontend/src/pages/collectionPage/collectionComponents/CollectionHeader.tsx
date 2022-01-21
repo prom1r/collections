@@ -166,7 +166,7 @@ export const CollectionHeader = (props) => {
                                         <Button onClick={handleCloseError} autoFocus>Close</Button>
                                     </DialogActions>
                                 </Dialog>
-                                
+
                             </Grid>
                         </Grid>
                         <Typography variant="body2" color="text.secondary">

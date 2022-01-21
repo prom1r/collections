@@ -66,7 +66,8 @@ export const CollectionItems = (props) => {
                          onCreate={handleCreate}
                          collectionTitle={props.collectionTitle}
                          customField={props.customField}
-                         userId={props.userId}/>
+                         userId={props.userId}
+            />
 
             <Snackbar
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}

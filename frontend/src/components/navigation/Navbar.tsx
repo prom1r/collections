@@ -6,8 +6,15 @@ import AuthenticationButton from "./AuthenticationButton";
 import { Link } from "react-router-dom";
 import Button from '@mui/material/Button';
 import { MuCollectionButton } from "./MyCollectionButton";
+import { useAuth0 } from "@auth0/auth0-react";
+import { isAdmin } from "../../models/users";
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
-export default function Navbar() {
+
+export const Navbar = () => {
+    const { user } = useAuth0();
+    const role = isAdmin(user);
+
 
     return (
         <AppBar position="static">
@@ -23,11 +30,21 @@ export default function Navbar() {
                     </Button>
                 </Link>
                 <MuCollectionButton/>
+                {role &&
+                    <Link style={{ textDecoration: 'none' }} to={'/admin'}>
+                        <Button variant="outlined"  startIcon={<AdminPanelSettingsIcon/>} sx={{
+                            color:'white'
+                        }}>
+                            Admin
+                        </Button>
+                    </Link>
+                }
                 <Box sx={{
                     position: 'absolute',
                     right: 0,
                     paddingRight: '10px'
                 }}>
+
                     <AuthenticationButton/>
                 </Box>
             </Toolbar>
