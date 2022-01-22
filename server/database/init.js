@@ -28,12 +28,15 @@ const itemsSchema = new mongoose.Schema({
     category: String,
     customField: Object,
     date: Object,
-    userNickname:String,
-    tags:Object,
+    userNickname: String,
+    tags: Object,
 })
 
 const Collection = mongoose.model('collections', collectionsSchema);
 
 const Item = mongoose.model('items', itemsSchema);
 
-module.exports = { Collection, Item }
+itemsSchema.index({title: 'text'});
+collectionsSchema.index({description: 'text'});
+
+module.exports = {Collection, Item}

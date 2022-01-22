@@ -22,7 +22,7 @@ const getMyItemIdDb = async (id) => {
 }
 
 const getRecentItems = async () => {
-    const item = await Item.find().sort({date:-1}).limit(10);
+    const item = await Item.find().sort({date: -1}).limit(10);
     return item;
 }
 
@@ -38,11 +38,23 @@ const updateItem = async (item, id,) => {
     return newItem
 }
 
-const deleteItem = async (id,) => {
-   const response = await Item.findByIdAndDelete(id);
+const deleteItem = async (id) => {
+    const response = await Item.findByIdAndDelete(id);
     return response
 }
 
+const searchItems = async (word) => {
+    const response = await Item.find({$text: {$search: word}});
+    return response
+}
 
-
-module.exports = {postItems, getItems, getMyItemIdDb, getRecentItems,updateItem,getIdDbItem,deleteItem}
+module.exports = {
+    postItems,
+    getItems,
+    getMyItemIdDb,
+    getRecentItems,
+    updateItem,
+    getIdDbItem,
+    deleteItem,
+    searchItems
+}

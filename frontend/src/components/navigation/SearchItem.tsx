@@ -1,25 +1,27 @@
 import SearchIcon from "@mui/icons-material/Search";
 import * as React from "react";
-import {alpha, styled} from "@mui/material/styles";
+import { alpha, styled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
+import { useNavigate } from 'react-router-dom';
 
-const Search = styled('div')(({theme}) => ({
+
+const Search = styled('div')(({ theme }) => ({
     position: 'relative',
-    marginBottom: '10px',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
     '&:hover': {
         backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
+    marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: '50%',
+    width: '100%',
     [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(1),
-        width: '25%',
+        marginLeft: theme.spacing(3),
+        width: 'auto',
     },
 }));
 
-const SearchIconWrapper = styled('div')(({theme}) => ({
+const SearchIconWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
@@ -29,7 +31,8 @@ const SearchIconWrapper = styled('div')(({theme}) => ({
     justifyContent: 'center',
 }));
 
-const StyledInputBase = styled(InputBase)(({theme}) => ({
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
@@ -45,17 +48,33 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
     },
 }));
 
+export const SearchItem = () => {
+    let navigate = useNavigate();
 
-export default function SearchItem() {
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' ) {
+            navigate(`/results/items?search=${e.target.value}`);
+            e.target.value = ''
+        }
+    }
+
+    // const onChange = (event) => {
+    //         navigate(`/results/items?search=${event.target.value}`);
+    // };
+
     return (
         <Search>
             <SearchIconWrapper>
                 <SearchIcon/>
             </SearchIconWrapper>
             <StyledInputBase
-                placeholder="search…"
-                inputProps={{'aria-label': 'search'}}
+                // onChange={onChange}
+                onKeyDown={handleKeyDown}
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
             />
         </Search>
     )
+
+
 }

@@ -46,8 +46,8 @@ export const deleteItemId = async (id, token) => {
     return response.data
 }
 
-export const getCountItemsCollection = async (id) => {
-    const response = await axios.get(`${BACKEND_URL}collection/item/count/${id}`)
+export const getSearchItems = async (searchItems) => {
+    const response = await axios.get(`${BACKEND_URL}/results/${searchItems}`)
     return response.data
 }
 

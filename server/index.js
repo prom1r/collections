@@ -10,7 +10,7 @@ const {
     getMyCollectionsIdDb,
     updateCollection,
     getIdDbCollection,
-    deleteCollection
+    deleteCollection, searchCollection
 } = require('./database/collectionService');
 const {
     postItems,
@@ -19,7 +19,8 @@ const {
     getRecentItems,
     getIdDbItem,
     updateItem,
-    deleteItem
+    deleteItem,
+    searchItems
 } = require('./database/itemsService');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
@@ -159,6 +160,13 @@ app.get('/users', checkJwt, async (req, res) => {
         res.json(allUsers);
     }
 })
+
+
+app.get('/results/:searchItems', async (req, res) => {
+    const items = await searchItems(req.params.searchItems);
+    res.json(items);
+});
+
 
 app.listen(port, () => {
     console.log('start server');

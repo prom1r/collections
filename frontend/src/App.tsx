@@ -7,18 +7,20 @@ import { MyCollectionsPage } from "./pages/myCollections/MyCollectionsPage";
 import { CollectionPage } from "./pages/collectionPage/CollectionPage";
 import { ItemPage } from "./pages/ItemsPage/ItemPage";
 import { AdminPage } from "./pages/adminPage/adminPage";
+import { SearchItemsPage } from "./pages/SearchItemsPage/SearchItemsPage";
 
 
 function App() {
     return (
         <div className="app">
-            <BrowserRouter>
+            <BrowserRouter >
                 <Navbar/>
                 <Routes>
                     <Route path="/" element={<HomePage/>}/>
                     <Route path="/collections/my" element={<MyCollectionsPage/>}/>
                     <Route path="/collection/:id" element={<CollectionPage/>}/>
                     <Route path="/admin" element={<AdminPage/>}/>
+                    <Route path="/results/items" element={<SearchItemsPage/>}/>
                     <Route path="/item/:id" element={<ItemPage/>}/>
                 </Routes>
             </BrowserRouter>

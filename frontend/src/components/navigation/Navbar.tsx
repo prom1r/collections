@@ -9,14 +9,15 @@ import { MuCollectionButton } from "./MyCollectionButton";
 import { useAuth0 } from "@auth0/auth0-react";
 import { isAdmin } from "../../models/users";
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import { SearchItem } from "./SearchItem";
 
 
 export const Navbar = () => {
     const { user } = useAuth0();
     const role = isAdmin(user);
 
-
     return (
+
         <AppBar position="static">
             <Toolbar sx={{
                 width: 'auto',
@@ -32,8 +33,8 @@ export const Navbar = () => {
                 <MuCollectionButton/>
                 {role &&
                     <Link style={{ textDecoration: 'none' }} to={'/admin'}>
-                        <Button variant="outlined"  startIcon={<AdminPanelSettingsIcon/>} sx={{
-                            color:'white'
+                        <Button variant="outlined" startIcon={<AdminPanelSettingsIcon/>} sx={{
+                            color: 'white'
                         }}>
                             Admin
                         </Button>
@@ -42,12 +43,14 @@ export const Navbar = () => {
                 <Box sx={{
                     position: 'absolute',
                     right: 0,
-                    paddingRight: '10px'
+                    paddingRight: '10px',
+                    display: 'flex',
                 }}>
-
+                    <SearchItem/>
                     <AuthenticationButton/>
                 </Box>
             </Toolbar>
         </AppBar>
+
     );
 }

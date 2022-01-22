@@ -42,6 +42,11 @@ const deleteCollection = async (id) => {
     return response
 }
 
+// const searchCollection = async (word) => {
+//     const response = await Collection.find({$text: {$search: word}});
+//     return response
+// }
+
 
 module.exports = {
     getTopCollections,
