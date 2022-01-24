@@ -3,6 +3,7 @@ import { TableUsers } from "./components/tableUsers";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getUsers } from "../../api/users";
 import CircularProgress from "@mui/material/CircularProgress";
+import Typography from '@mui/material/Typography';
 
 export const AdminPage = () => {
     const { getAccessTokenSilently, user } = useAuth0();
@@ -25,6 +26,14 @@ export const AdminPage = () => {
         return <CircularProgress/>;
     }
     return (
-        <TableUsers users={users}/>
+        <>
+            <Typography variant="h3" component="h3"  align='left' sx={{
+                padding:'10px'
+            }}>
+                Users
+            </Typography>
+            <TableUsers users={users}/>
+        </>
+
     )
 }

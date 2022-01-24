@@ -129,7 +129,7 @@ app.post('/items', checkJwt, async (req, res) => {
     res.json(response);
 });
 
-app.get('/collection/items/:id', async (req, res) => {
+app.get('/collection/:id/items/', async (req, res) => {
     const response = await getItems(req.params.id);
     res.json(response);
 });

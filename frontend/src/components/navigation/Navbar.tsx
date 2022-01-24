@@ -10,14 +10,15 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { isAdmin } from "../../models/users";
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { SearchItem } from "./SearchItem";
+import { ButtonTheme } from "./ButtonTheme";
 
 
-export const Navbar = () => {
+
+export const Navbar = (props) => {
     const { user } = useAuth0();
     const role = isAdmin(user);
 
     return (
-
         <AppBar position="static">
             <Toolbar sx={{
                 width: 'auto',
@@ -41,11 +42,14 @@ export const Navbar = () => {
                     </Link>
                 }
                 <Box sx={{
+                    // width:'50%',
                     position: 'absolute',
                     right: 0,
                     paddingRight: '10px',
                     display: 'flex',
+                    verticalAlign:'middle'
                 }}>
+                    <ButtonTheme/>
                     <SearchItem/>
                     <AuthenticationButton/>
                 </Box>

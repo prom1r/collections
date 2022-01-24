@@ -19,10 +19,10 @@ console.log(props.users)
                     <TableHead>
                         <TableRow>
                             <TableCell>Users Name</TableCell>
-                            <TableCell align="right">User ID</TableCell>
-                            <TableCell align="right">User Email</TableCell>
-                            <TableCell align="right">User Role</TableCell>
-                            <TableCell align="right">Data Registration User</TableCell>
+                            <TableCell align="right">ID</TableCell>
+                            <TableCell align="right">Email</TableCell>
+                            <TableCell align="right">Role</TableCell>
+                            <TableCell align="right">Data Registration</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

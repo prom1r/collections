@@ -17,7 +17,7 @@ export const getRecentItems = async () => {
 }
 
 export const getMyItems = async (id) => {
-    const apiUrl = `${BACKEND_URL}/collection/items/${id}`;
+    const apiUrl = `${BACKEND_URL}/collection/${id}/items`;
     const response = await axios.get(apiUrl);
     return response.data;
 }
