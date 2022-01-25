@@ -13,6 +13,7 @@ const getMyCollections = async (userId) => {
 const postCollections = async (item) => {
     const newCollection = new Collection(item);
     await newCollection.save();
+    return newCollection;
 }
 
 const getMyCollectionsIdDb = async (id) => {
