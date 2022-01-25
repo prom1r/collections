@@ -93,29 +93,32 @@ export const CollectionHeader = (props) => {
                 <Grid item xs={8}>
                     <Item>
                         <Grid container spacing={2}>
-                            <Grid item xs={8}>
+                            <Grid item xs={6}>
                                 <Typography gutterBottom variant="h2" component="h2">
                                     {title}
                                 </Typography>
                             </Grid>
-                            <Grid item xs={4}>
-
-                                {(user && user.sub == userId || isAdmin(user)) &&
-                                    <Button onClick={handleOpen} variant="contained">Edit Collection</Button>
-                                }
-
-                                {(user && user.sub == userId || isAdmin(user)) &&
-                                    <Button sx={{
-                                        marginLeft: '20px'
-                                    }}
-                                            variant="contained"
-                                            color='error'
-                                            startIcon={<DeleteIcon fontSize='large'/>}
-                                            onClick={handleOpenModal}>
-                                        Delete Collection
-                                    </Button>
-                                }
-
+                            <Grid item xs={6}>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={5}>
+                                        {(user && user.sub == userId || isAdmin(user)) &&
+                                            <Button onClick={handleOpen} variant="contained">Edit Collection</Button>
+                                        }
+                                    </Grid>
+                                    <Grid item xs={7}>
+                                        {(user && user.sub == userId || isAdmin(user)) &&
+                                            <Button sx={{
+                                                marginLeft: '20px'
+                                            }}
+                                                    variant="contained"
+                                                    color='error'
+                                                    startIcon={<DeleteIcon fontSize='large'/>}
+                                                    onClick={handleOpenModal}>
+                                                Delete Collection
+                                            </Button>
+                                        }
+                                    </Grid>
+                                </Grid>
                                 <Drawer
                                     aria-labelledby="transition-modal-title"
                                     aria-describedby="transition-modal-description"
