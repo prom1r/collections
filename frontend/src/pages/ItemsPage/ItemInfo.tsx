@@ -146,7 +146,6 @@ export const ItemInfo = (props) => {
                             <Button onClick={handleCloseModal} autoFocus>Cansel</Button>
                         </DialogActions>
                     </Dialog>
-
                 </Grid>
             </Grid>
             <Grid container spacing={2}>
@@ -163,8 +162,6 @@ export const ItemInfo = (props) => {
                 <Grid item xs={8}>
                     <Item>
                         <Grid container spacing={2}>
-
-
                             <Typography gutterBottom variant="h2" component="h2" sx={{
                                 paddingLeft: '10px',
                                 paddingBottom: '20px'
@@ -183,6 +180,7 @@ export const ItemInfo = (props) => {
                             {tags.map(tag => <ChipTag tag={tag}/>)}
                         </Grid>
                     </Grid>
+
                 </Grid>
             </Grid>
         </Box>

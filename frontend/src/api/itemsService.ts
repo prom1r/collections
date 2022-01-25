@@ -16,8 +16,8 @@ export const getRecentItems = async () => {
     return response.data
 }
 
-export const getMyItems = async (id) => {
-    const apiUrl = `${BACKEND_URL}/collection/${id}/items`;
+export const getMyItems = async (id, sort = '-1', dateFrom = '', dateTo = '') => {
+    const apiUrl = `${BACKEND_URL}/collection/${id}/items/?date_sort=${sort}&date_from=${dateFrom}&date_to=${dateTo}`;
     const response = await axios.get(apiUrl);
     return response.data;
 }

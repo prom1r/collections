@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import './App.css';
-import HomePage from "./pages/homePage/HomePage";
-import { Navbar } from "./components/navigation/Navbar";
-import { Routes, Route, Link, BrowserRouter } from "react-router-dom";
-import { MyCollectionsPage } from "./pages/myCollections/MyCollectionsPage";
-import { CollectionPage } from "./pages/collectionPage/CollectionPage";
-import { ItemPage } from "./pages/ItemsPage/ItemPage";
-import { AdminPage } from "./pages/adminPage/adminPage";
-import { SearchItemsPage } from "./pages/SearchItemsPage/SearchItemsPage";
+import HomePage from './pages/homePage/HomePage';
+import { Navbar } from './components/navigation/Navbar';
+import { Routes, Route, Link, BrowserRouter } from 'react-router-dom';
+import { MyCollectionsPage } from './pages/myCollections/MyCollectionsPage';
+import { CollectionPage } from './pages/collectionPage/CollectionPage';
+import { ItemPage } from './pages/ItemsPage/ItemPage';
+import { AdminPage } from './pages/adminPage/adminPage';
+import { SearchItemsPage } from './pages/SearchItemsPage/SearchItemsPage';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { PaletteMode } from "@mui/material";
-
 
 export const ColorModeContext = React.createContext({
     toggleColorMode: () => {
@@ -19,9 +18,9 @@ export const ColorModeContext = React.createContext({
 });
 
 function App() {
-    const [mode, setMode] = React.useState<PaletteMode>('light');
+    const [mode, setMode] = useState<PaletteMode>('light');
 
-    const colorMode = React.useMemo(
+    const colorMode = useMemo(
         () => ({
             toggleColorMode: () => {
                 setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
@@ -30,8 +29,7 @@ function App() {
         [],
     );
 
-
-    const theme = React.useMemo(
+    const theme = useMemo(
         () =>
             createTheme({
                 palette: {

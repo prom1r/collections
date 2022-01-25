@@ -37,7 +37,7 @@ const Item = styled(Paper)(({ theme }) => ({
 export const CollectionHeader = (props) => {
     const { getAccessTokenSilently, user } = useAuth0();
     const navigate = useNavigate();
-    const { _id, title, srcImg, category, description, userId } = props.collection;
+    const { _id, title, srcImg, category, description, userId ,userNickname} = props.collection;
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -185,7 +185,7 @@ export const CollectionHeader = (props) => {
                                 </Typography>
                             </Item>
                             <Item>
-                                <Chip variant="outlined" icon={<FaceIcon/>} label='Autor:DimasKarabas'/>
+                                <Chip variant="outlined" icon={<FaceIcon/>} label={userNickname}/>
                             </Item>
                         </Stack>
                     </Item>

@@ -20,7 +20,8 @@ const {
     getIdDbItem,
     updateItem,
     deleteItem,
-    searchItems
+    searchItems,
+    getItemsForm
 } = require('./database/itemsService');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
@@ -28,11 +29,11 @@ const axios = require('axios');
 const bodyParser = require('body-parser');
 const uploadAzure = require('./blob/blob');
 const multer = require('multer');
-const {getAllTags} = require("./database/tagsService");
-const {isAdmin} = require("./database/user");
-const {getUsers} = require("./auth0/usersService");
+const { getAllTags } = require("./database/tagsService");
+const { isAdmin } = require("./database/user");
+const { getUsers } = require("./auth0/usersService");
 const storage = multer.memoryStorage();
-const upload = multer({storage: storage});
+const upload = multer({ storage: storage });
 
 
 app.use(cors());
@@ -118,7 +119,7 @@ app.get('/items/recent', async (req, res) => {
 
 app.post('/upload', upload.single('image'), async (req, res) => {
     const url = await uploadAzure(req.file);
-    res.json({url});
+    res.json({ url });
 });
 
 app.post('/items', checkJwt, async (req, res) => {
@@ -129,10 +130,37 @@ app.post('/items', checkJwt, async (req, res) => {
     res.json(response);
 });
 
-app.get('/collection/:id/items/', async (req, res) => {
-    const response = await getItems(req.params.id);
-    res.json(response);
+
+app.get('/collection/:id/items', async (req, res) => {
+    const sort = Number(req.query.date_sort);
+
+    if (req.query.date_from && req.query.date_to) {
+        const response = await getItemsForm(req.params.id, req.query.date_from, req.query.date_to, sort);
+        res.json(response);
+        return;
+    }
+
+    if (req.query.date_from && req.query.date_to == '') {
+        const response = await getItemsForm(req.params.id, req.query.date_from, '', sort);
+        res.json(response);
+        return;
+    }
+
+    if (req.query.date_from == '' && req.query.date_to) {
+        const response = await getItemsForm(req.params.id, '', req.query.date_to, sort);
+        res.json(response);
+        return;
+    }
+
+    if (!req.query.date_from && !req.query.date_to) {
+        const response = await getItems(req.params.id, sort);
+        res.json(response);
+        return;
+    }
+
+
 });
+
 
 app.get('/item/:id', async (req, res) => {
     const myCollection = await getMyItemIdDb(req.params.id);

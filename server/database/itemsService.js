@@ -1,4 +1,4 @@
-const {Item, Collection} = require("./init");
+const { Item, Collection } = require("./init");
 
 const postItems = async (item) => {
     const newItem = new Item(item);
@@ -6,10 +6,46 @@ const postItems = async (item) => {
     return response
 }
 
-const getItems = async (collectionId) => {
-    const myCollection = await Item.find({collectionId: collectionId});
+const getItems = async (collectionId, sort = -1) => {
+    const myCollection = await Item.find({ collectionId: collectionId }).sort({ date: sort })
     return myCollection;
 }
+
+
+const getItemsForm = async (collectionId, dateFrom = '', dateTo = '', sort = -1) => {
+    const dateFilerFrom = {};
+    const dateFilerTo = {};
+    let myItemsFrom;
+
+    if (dateFrom && dateTo) {
+        dateFilerFrom['$gte'] = new Date(dateFrom);
+        dateFilerTo['$lte'] = new Date(dateTo);
+        myItemsFrom = await Item
+            .find({ $and: [{ collectionId: collectionId }, { date: dateFilerFrom }, { date: dateFilerTo }] })
+            .sort({ date: sort })
+            .exec();
+        return myItemsFrom;
+    }
+
+    if (dateFrom && dateTo == '') {
+        dateFilerFrom['$gte'] = new Date(dateFrom);
+        myItemsFrom = await Item
+            .find({ $and: [{ collectionId: collectionId }, { date: dateFilerFrom }] })
+            .sort({ date: sort })
+            .exec();
+        return myItemsFrom;
+    }
+
+    if (dateFrom == '' && dateTo) {
+        dateFilerTo['$lte'] = new Date(dateTo);
+        myItemsFrom = await Item
+            .find({ $and: [{ collectionId: collectionId }, { date: dateFilerTo }] })
+            .sort({ date: sort })
+            .exec();
+        return myItemsFrom;
+    }
+}
+
 
 const getMyItemIdDb = async (id) => {
     let myItem
@@ -22,7 +58,7 @@ const getMyItemIdDb = async (id) => {
 }
 
 const getRecentItems = async () => {
-    const item = await Item.find().sort({date: -1}).limit(10);
+    const item = await Item.find().sort({ date: -1 }).limit(10);
     return item;
 }
 
@@ -33,7 +69,7 @@ const getIdDbItem = async (id) => {
 
 
 const updateItem = async (item, id,) => {
-    await Item.findOneAndUpdate({_id: id}, item);
+    await Item.findOneAndUpdate({ _id: id }, item);
     const newItem = await Item.findById(id)
     return newItem
 }
@@ -44,9 +80,10 @@ const deleteItem = async (id) => {
 }
 
 const searchItems = async (word) => {
-    const response = await Item.find({$text: {$search: word}});
+    const response = await Item.find({ $text: { $search: word } });
     return response
 }
+
 
 module.exports = {
     postItems,
@@ -56,5 +93,6 @@ module.exports = {
     updateItem,
     getIdDbItem,
     deleteItem,
-    searchItems
+    searchItems,
+    getItemsForm,
 }

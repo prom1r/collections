@@ -15,6 +15,7 @@ const collectionsSchema = new mongoose.Schema({
     category: String,
     description: String,
     customFields: Object,
+    userNickname: String,
 })
 
 const itemsSchema = new mongoose.Schema({
@@ -27,7 +28,7 @@ const itemsSchema = new mongoose.Schema({
     userId: String,
     category: String,
     customField: Object,
-    date: Object,
+    date: Date,
     userNickname: String,
     tags: Object,
 })
@@ -36,7 +37,7 @@ const Collection = mongoose.model('collections', collectionsSchema);
 
 const Item = mongoose.model('items', itemsSchema);
 
-itemsSchema.index({title: 'text'});
-collectionsSchema.index({description: 'text'});
+itemsSchema.index({ title: 'text' });
+collectionsSchema.index({ description: 'text' });
 
-module.exports = {Collection, Item}
+module.exports = { Collection, Item }

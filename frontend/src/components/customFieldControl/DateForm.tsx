@@ -15,6 +15,7 @@ export const DateForm: React.FC<DateFormProps> = (props) => {
 
     const field = `customField.${props.index}.value`
 
+
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DesktopDatePicker

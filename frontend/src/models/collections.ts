@@ -7,5 +7,7 @@ export interface Collection {
     itemsCount: number;
     category:string,
     description:string,
-    customFields:CustomField[];
+    customFields:CustomField[],
+    userNickname: string;
+
 }

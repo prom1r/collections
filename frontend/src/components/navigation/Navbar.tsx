@@ -42,7 +42,6 @@ export const Navbar = (props) => {
                     </Link>
                 }
                 <Box sx={{
-                    // width:'50%',
                     position: 'absolute',
                     right: 0,
                     paddingRight: '10px',

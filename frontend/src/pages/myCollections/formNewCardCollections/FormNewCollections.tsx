@@ -20,7 +20,7 @@ interface FormNewCollectionsProps {
 }
 
 export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => {
-    const { getAccessTokenSilently } = useAuth0();
+    const { getAccessTokenSilently,user} = useAuth0();
     const [url, setUrl] = useState(null);
     let buttonName = props.collection ? 'Edit' : 'Save'
 
@@ -81,6 +81,7 @@ export const FormNewCollections: React.FC<FormNewCollectionsProps> = (props) => 
             const token = await getAccessTokenSilently();
             values.srcImg = url;
             if (!props.collection) {
+                values.userNickname = user.nickname;
                 const item = await postNewCollections(token, values);
                 props.onCreate(item);
             } else {
