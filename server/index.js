@@ -21,7 +21,9 @@ const {
     updateItem,
     deleteItem,
     searchItems,
-    getItemsForm
+    getItemsForm,
+    itemsLike,
+    itemsUnlike
 } = require('./database/itemsService');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
@@ -194,6 +196,20 @@ app.get('/results/:searchItems', async (req, res) => {
     const items = await searchItems(req.params.searchItems);
     res.json(items);
 });
+
+app.put('/items/:id/like', checkJwt, async (req, res) => {
+    const itemId = req.params.id;
+    const userAuth0Idd = req.user.sub;
+    const response = await itemsLike(itemId, userAuth0Idd).then(res => res.like);
+    res.json(response);
+})
+
+app.put('/items/:id/unlike', checkJwt, async (req, res) => {
+    const itemId = req.params.id;
+    const userAuth0Idd = req.user.sub;
+    const response = await itemsUnlike(itemId, userAuth0Idd).then(res => res.like);
+    res.json(response);
+})
 
 
 app.listen(port, () => {

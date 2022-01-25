@@ -8,6 +8,7 @@ export interface Collection {
     category:string,
     description:string,
     customFields:CustomField[],
-    userNickname: string;
+    userNickname: string,
+    like:object
 
 }

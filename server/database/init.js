@@ -31,6 +31,7 @@ const itemsSchema = new mongoose.Schema({
     date: Date,
     userNickname: String,
     tags: Object,
+    like:Array
 })
 
 const Collection = mongoose.model('collections', collectionsSchema);

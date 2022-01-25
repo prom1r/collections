@@ -19,9 +19,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
-import { deleteItemId } from "../../api/itemsService";
+import { deleteItemId, putLikeUser, putUnlikeUser } from "../../api/itemsService";
 import { useAuth0 } from "@auth0/auth0-react";
 import { isAdmin } from "../../models/users";
+import { Likes } from "../../components/Likes";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -39,11 +40,36 @@ export const ItemInfo = (props) => {
     const navigate = useNavigate();
     const { _id, title, srcImg, collectionTitle, collectionId, customField, tags, userId } = props.item;
     const [open, setOpen] = React.useState(false);
+    const [like, setLike] = React.useState(false);
+    const [likeCount, setLikeCount] = React.useState([]);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
-
     const [openModal, setOpenModal] = React.useState(false);
+
+    React.useEffect(() => {
+        if (props.item.like.includes(user.sub)) {
+            setLike(true)
+        } else {
+            setLike(false)
+        }
+    }, []);
+
+    const handleLike = async () => {
+        if (!like) {
+            const token = await getAccessTokenSilently();
+            const like = await putLikeUser(_id, token);
+            setLikeCount(like);
+            setLike(true);
+        } else {
+            const token = await getAccessTokenSilently();
+            const like = await putUnlikeUser(_id, token);
+            setLikeCount(like);
+            setLike(false);
+        }
+    }
+
+
+
     const handleOpenModal = () => {
         setOpenModal(true);
     };
@@ -180,7 +206,9 @@ export const ItemInfo = (props) => {
                             {tags.map(tag => <ChipTag tag={tag}/>)}
                         </Grid>
                     </Grid>
-
+                    <Grid item xs={1}>
+                        <Likes like={like} setLike={handleLike} likeCount={likeCount} likeCountFirst={props.item.like}/>
+                    </Grid>
                 </Grid>
             </Grid>
         </Box>

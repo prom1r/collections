@@ -51,5 +51,23 @@ export const getSearchItems = async (searchItems) => {
     return response.data
 }
 
+export const putLikeUser = async (id, token) => {
+    const response = await axios.put(`${BACKEND_URL}/items/${id}/like`, {}, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    return response.data
+}
+
+
+export const putUnlikeUser = async (id, token) => {
+    const response = await axios.put(`${BACKEND_URL}/items/${id}/unlike`, {}, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    return response.data
+}
 
 

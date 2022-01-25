@@ -85,6 +85,18 @@ const searchItems = async (word) => {
 }
 
 
+const itemsLike = async (itemId, userId) => {
+    await Item.updateOne({ _id: itemId }, { $push: { like: userId } });
+    const newItem = await Item.findById(itemId)
+    return newItem
+}
+
+const itemsUnlike = async (itemId, userId) => {
+    const response = await Item.updateOne({ _id: itemId }, { $pull: { like: userId } });
+    const newItem = await Item.findById(itemId)
+    return newItem
+}
+
 module.exports = {
     postItems,
     getItems,
@@ -95,4 +107,7 @@ module.exports = {
     deleteItem,
     searchItems,
     getItemsForm,
+    itemsLike,
+    itemsUnlike
+
 }
