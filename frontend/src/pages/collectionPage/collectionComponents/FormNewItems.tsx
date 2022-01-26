@@ -51,6 +51,7 @@ export const FormNewItems = (props) => {
     const handleFileUpload = (url) => {
         setUrl(url);
     }
+
     const onSubmit = async (values: Item) => {
         try {
             if (!props.item) {
@@ -61,7 +62,7 @@ export const FormNewItems = (props) => {
                 values.date = date;
                 values.userNickname = user.nickname;
                 const token = await getAccessTokenSilently();
-                const item = await postNewItems(values,token);
+                const item = await postNewItems(values, token);
                 props.onCreate(item);
             } else {
                 const token = await getAccessTokenSilently();
@@ -95,7 +96,6 @@ export const FormNewItems = (props) => {
                                 <h3>{item.name}</h3>
                             </Grid>
                             <Grid item xs={6}>
-                                {/*{JSON.stringify(formik.values)}*/}
                                 <CustomFieldControl index={index}
                                                     item={item}
                                                     formik={formik}

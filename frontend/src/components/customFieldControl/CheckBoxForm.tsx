@@ -8,14 +8,15 @@ interface CheckboxFormProps {
 }
 
 export const CheckboxForm: React.FC<CheckboxFormProps> = (props) => {
-
+    const field = `customField.${props.index}.value`;
     const handleChange = (event) => {
-        props.formik.handleChange(event);
+        props.formik.setFieldValue(field, event.target.checked);
     };
 
     return (
         <Checkbox
-            name={`customField.${props.index}.value`}
+            id={field}
+            name={field}
             checked={props.values}
             onChange={handleChange}
             inputProps={{ 'aria-label': 'controlled' }}

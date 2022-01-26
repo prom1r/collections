@@ -23,20 +23,14 @@ import { deleteItemId, putLikeUser, putUnlikeUser } from "../../api/itemsService
 import { useAuth0 } from "@auth0/auth0-react";
 import { isAdmin } from "../../models/users";
 import { Likes } from "../../components/Likes";
+import { CommentsContainer } from "./comments/CommentsContainer";
+import { CommentsForm } from "./comments/CommentsForm";
 
 
-const Item = styled(Paper)(({ theme }) => ({
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'left',
-    color: theme.palette.text.secondary,
-    boxShadow: '0px 0px 0px 0px',
-    backgroundSize: 'cover'
-}));
 
 
 export const ItemInfo = (props) => {
-    const { getAccessTokenSilently, user } = useAuth0();
+    const { getAccessTokenSilently, user, isAuthenticated } = useAuth0();
     const navigate = useNavigate();
     const { _id, title, srcImg, collectionTitle, collectionId, customField, tags, userId } = props.item;
     const [open, setOpen] = React.useState(false);
@@ -47,6 +41,9 @@ export const ItemInfo = (props) => {
     const [openModal, setOpenModal] = React.useState(false);
 
     React.useEffect(() => {
+        if (!isAuthenticated) {
+            return;
+        }
         if (props.item.like.includes(user.sub)) {
             setLike(true)
         } else {
@@ -67,7 +64,6 @@ export const ItemInfo = (props) => {
             setLike(false);
         }
     }
-
 
 
     const handleOpenModal = () => {
@@ -96,7 +92,7 @@ export const ItemInfo = (props) => {
             flexGrow: 1,
             paddingTop: 3,
         }}>
-            <Grid container spacing={1} paddingLeft='20px'>
+            <Grid container spacing={1} paddingLeft='20px' paddingBottom='20px'>
                 <Grid item xs={8} textAlign='left'>
                     <Link style={{ textDecoration: 'none' }} to={`/collection/${collectionId}`}>
                         <Button variant="contained" startIcon={<ArrowBackIosNewIcon fontSize='large'/>}>
@@ -174,19 +170,19 @@ export const ItemInfo = (props) => {
                     </Dialog>
                 </Grid>
             </Grid>
-            <Grid container spacing={2}>
-                <Grid item xs={4}>
-                    <Item>
+            <Grid container spacing={3} paddingLeft='20px'  >
+                <Grid item xs={4} >
                         <CardMedia
                             component="img"
                             height="500"
                             image={srcImg}
                             alt={title}
                         />
-                    </Item>
                 </Grid>
-                <Grid item xs={8}>
-                    <Item>
+                <Grid item xs={8} sx={{
+                    padding:'0px'
+                }}>
+
                         <Grid container spacing={2}>
                             <Typography gutterBottom variant="h2" component="h2" sx={{
                                 paddingLeft: '10px',
@@ -195,23 +191,38 @@ export const ItemInfo = (props) => {
                                 {title}
                             </Typography>
                         </Grid>
-                        <Grid container item spacing={3}>
+                        <Grid container item spacing={3} >
                             {customField.map(item => <CustomFieldView item={item}/>)}
                         </Grid>
-                    </Item>
-                    <Grid item xs={8}>
-                        <Grid container item spacing={1} sx={{
-                            paddingLeft: '10px'
-                        }}>
+                    <Grid item xs={8}  sx={{
+                        paddingTop:'20px'
+                    }}>
+                        <Grid container item spacing={1} >
                             {tags.map(tag => <ChipTag tag={tag}/>)}
                         </Grid>
                     </Grid>
-                    <Grid item xs={1}>
+                    <Grid item padding='0px' textAlign='left'>
                         <Likes like={like} setLike={handleLike} likeCount={likeCount} likeCountFirst={props.item.like}/>
                     </Grid>
                 </Grid>
             </Grid>
-        </Box>
 
+            {isAuthenticated &&
+                <Box>
+                    <CommentsContainer itemId={_id}/>
+                </Box>
+            }
+
+            {isAuthenticated &&
+                <Box sx={{
+                    width: 'auto',
+                    padding: '20px',
+                    verticalAlign: 'bottom',
+                    boxShadow:'0px 0px 0px 0px'
+                }}>
+                    <CommentsForm itemId={_id}/>
+                </Box>
+            }
+        </Box>
     );
 }

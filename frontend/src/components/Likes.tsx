@@ -10,7 +10,10 @@ export const Likes = (props) => {
     }
     return (
         <>
-            <IconButton
+            <IconButton sx={{
+                paddingLeft:'0px',
+                paddingTop:'20px'
+            }}
                 onClick={props.setLike}>
                 {props.like ? <ThumbUpAltIcon/> : <ThumbUpAltOutlinedIcon/>} &nbsp;
                 {countLike()}

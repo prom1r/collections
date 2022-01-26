@@ -46,7 +46,7 @@ export const Navbar = (props) => {
                     right: 0,
                     paddingRight: '10px',
                     display: 'flex',
-                    verticalAlign:'middle'
+                  verticalAlign:'middle'
                 }}>
                     <ButtonTheme/>
                     <SearchItem/>

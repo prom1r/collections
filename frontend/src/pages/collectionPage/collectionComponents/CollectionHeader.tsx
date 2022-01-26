@@ -37,7 +37,7 @@ const Item = styled(Paper)(({ theme }) => ({
 export const CollectionHeader = (props) => {
     const { getAccessTokenSilently, user } = useAuth0();
     const navigate = useNavigate();
-    const { _id, title, srcImg, category, description, userId ,userNickname} = props.collection;
+    const { _id, title, srcImg, category, description, userId, userNickname } = props.collection;
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -79,6 +79,80 @@ export const CollectionHeader = (props) => {
             flexGrow: 1,
             paddingTop: 3,
         }}>
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                paddingRight: '20px'
+            }}>
+                <Box>
+                    {(user && user.sub == userId || isAdmin(user)) &&
+                        <Button onClick={handleOpen} variant="contained">Edit Collection</Button>
+                    }
+                </Box>
+                <Box>
+                    {(user && user.sub == userId || isAdmin(user)) &&
+                        <Button sx={{
+                            marginLeft: '20px'
+                        }}
+                                variant="contained"
+                                color='error'
+                                startIcon={<DeleteIcon fontSize='large'/>}
+                                onClick={handleOpenModal}>
+                            Delete Collection
+                        </Button>
+                    }
+                </Box>
+            </Box>
+            <Drawer
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                anchor={'right'}
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <div className='formik'>
+                    <FormNewCollections onClose={onClose} collection={props.collection}/>
+                </div>
+            </Drawer>
+
+            <Dialog
+                open={openModal}
+                onClose={handleCloseModal}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"You really want to delete this collection?"}
+                </DialogTitle>
+                <DialogActions>
+                    <Button onClick={handleDeleteCloseModal}
+                            color='error'
+                            startIcon={<DeleteIcon fontSize='large'/>}
+                    >
+                        Delete
+                    </Button>
+                    <Button onClick={handleCloseModal} autoFocus>Close</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog
+                open={openError}
+                onClose={handleCloseError}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Sorry but there are items in your collection "}
+                </DialogTitle>
+                <DialogActions>
+                    <Button onClick={handleCloseError} autoFocus>Close</Button>
+                </DialogActions>
+            </Dialog>
             <Grid container spacing={2}>
                 <Grid item xs={4}>
                     <Item>
@@ -90,105 +164,29 @@ export const CollectionHeader = (props) => {
                         />
                     </Item>
                 </Grid>
-                <Grid item xs={8}>
-                    <Item>
-                        <Grid container spacing={2}>
-                            <Grid item xs={6}>
-                                <Typography gutterBottom variant="h2" component="h2">
-                                    {title}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Grid container spacing={2}>
-                                    <Grid item xs={5}>
-                                        {(user && user.sub == userId || isAdmin(user)) &&
-                                            <Button onClick={handleOpen} variant="contained">Edit Collection</Button>
-                                        }
-                                    </Grid>
-                                    <Grid item xs={7}>
-                                        {(user && user.sub == userId || isAdmin(user)) &&
-                                            <Button sx={{
-                                                marginLeft: '20px'
-                                            }}
-                                                    variant="contained"
-                                                    color='error'
-                                                    startIcon={<DeleteIcon fontSize='large'/>}
-                                                    onClick={handleOpenModal}>
-                                                Delete Collection
-                                            </Button>
-                                        }
-                                    </Grid>
-                                </Grid>
-                                <Drawer
-                                    aria-labelledby="transition-modal-title"
-                                    aria-describedby="transition-modal-description"
-                                    anchor={'right'}
-                                    open={open}
-                                    onClose={handleClose}
-                                    closeAfterTransition
-                                    BackdropComponent={Backdrop}
-                                    BackdropProps={{
-                                        timeout: 500,
-                                    }}
-                                >
-                                    <div className='formik'>
-                                        <FormNewCollections onClose={onClose} collection={props.collection}/>
-                                    </div>
-                                </Drawer>
+                <Grid item xs={8} sx={{textAlign:'left'}}>
+                    <Typography gutterBottom variant="h2" component="h2">
+                        {title}
+                    </Typography>
 
-                                <Dialog
-                                    open={openModal}
-                                    onClose={handleCloseModal}
-                                    aria-labelledby="alert-dialog-title"
-                                    aria-describedby="alert-dialog-description"
-                                >
-                                    <DialogTitle id="alert-dialog-title">
-                                        {"You really want to delete this collection?"}
-                                    </DialogTitle>
-                                    <DialogActions>
-                                        <Button onClick={handleDeleteCloseModal}
-                                                color='error'
-                                                startIcon={<DeleteIcon fontSize='large'/>}
-                                        >
-                                            Delete
-                                        </Button>
-                                        <Button onClick={handleCloseModal} autoFocus>Close</Button>
-                                    </DialogActions>
-                                </Dialog>
 
-                                <Dialog
-                                    open={openError}
-                                    onClose={handleCloseError}
-                                    aria-labelledby="alert-dialog-title"
-                                    aria-describedby="alert-dialog-description"
-                                >
-                                    <DialogTitle id="alert-dialog-title">
-                                        {"Sorry but there are items in your collection "}
-                                    </DialogTitle>
-                                    <DialogActions>
-                                        <Button onClick={handleCloseError} autoFocus>Close</Button>
-                                    </DialogActions>
-                                </Dialog>
+                    <Typography variant="body2" color="text.secondary">
+                        <ReactMarkdown>{description}</ReactMarkdown>
+                    </Typography>
+                    <Stack direction="row" spacing={2}>
+                        <Item>
+                            <Chip label={category} variant="outlined"/>
+                        </Item>
+                        <Item>
+                            <Typography gutterBottom variant="h6" color="text.secondary">
+                                {props.itemsCount} items
+                            </Typography>
+                        </Item>
+                        <Item>
+                            <Chip variant="outlined" icon={<FaceIcon/>} label={userNickname}/>
+                        </Item>
+                    </Stack>
 
-                            </Grid>
-                        </Grid>
-                        <Typography variant="body2" color="text.secondary">
-                            <ReactMarkdown>{description}</ReactMarkdown>
-                        </Typography>
-                        <Stack direction="row" spacing={2}>
-                            <Item>
-                                <Chip label={category} variant="outlined"/>
-                            </Item>
-                            <Item>
-                                <Typography gutterBottom variant="h6" color="text.secondary">
-                                    {props.itemsCount} items
-                                </Typography>
-                            </Item>
-                            <Item>
-                                <Chip variant="outlined" icon={<FaceIcon/>} label={userNickname}/>
-                            </Item>
-                        </Stack>
-                    </Item>
                 </Grid>
             </Grid>
         </Box>

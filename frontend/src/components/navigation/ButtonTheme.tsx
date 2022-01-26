@@ -15,13 +15,7 @@ export const ButtonTheme = (props) => {
         <Box
             sx={{
                 display: 'flex',
-                padding:'0px',
-                height:'20px',
-                width: 'auto',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                p: 2,
+                alignItems: 'center'
             }}
         >
             {label}

@@ -34,6 +34,7 @@ const multer = require('multer');
 const { getAllTags } = require("./database/tagsService");
 const { isAdmin } = require("./database/user");
 const { getUsers } = require("./auth0/usersService");
+const { postNewComment, getComment } = require("./database/commentsScheme");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
@@ -211,6 +212,16 @@ app.put('/items/:id/unlike', checkJwt, async (req, res) => {
     res.json(response);
 })
 
+app.post('/item/comments', checkJwt, async (req, res) => {
+    const newComment = await postNewComment(req.body.values);
+    res.json(newComment);
+})
+
+app.get('/item/:id/comments', async (req, res) => {
+    const itemId = req.params.id;
+    const comments = await getComment(itemId);
+    res.json(comments);
+})
 
 app.listen(port, () => {
     console.log('start server');

@@ -31,14 +31,25 @@ const itemsSchema = new mongoose.Schema({
     date: Date,
     userNickname: String,
     tags: Object,
-    like:Array
+    like: Array
+})
+
+const commentsShema = new mongoose.Schema({
+    id: mongoose.ObjectId,
+    user: Object,
+    itemId: String,
+    date: Date,
+    commentsItem: String,
+    avatar: String
 })
 
 const Collection = mongoose.model('collections', collectionsSchema);
 
 const Item = mongoose.model('items', itemsSchema);
 
+const Comment = mongoose.model('comments', commentsShema);
+
 itemsSchema.index({ title: 'text' });
 collectionsSchema.index({ description: 'text' });
 
-module.exports = { Collection, Item }
+module.exports = { Collection, Item, Comment }

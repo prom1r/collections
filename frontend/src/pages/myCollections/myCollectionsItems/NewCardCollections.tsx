@@ -30,7 +30,6 @@ export const NewCardCollection: React.FC<NewCardCollectionsProps> = (props) => {
                         minHeight: 260,
                         height: '100%',
                         width: '100%',
-                        backgroundColor: 'ghostwhite',
                         '&:hover': {
                             backgroundColor: 'lavender',
                             opacity: [0.9, 0.8, 0.7],

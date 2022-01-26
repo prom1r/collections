@@ -27,7 +27,7 @@ export const CustomFieldControl: React.FC<CustomFieldControlProps> = (props) => 
         case CustomFieldType.Boolean:
             return <CheckboxForm
                 index={props.index}
-                values={props.values}
+                values={props.values || false}
                 formik={props.formik}/>
         case CustomFieldType.Text:
             return <TextareaForm

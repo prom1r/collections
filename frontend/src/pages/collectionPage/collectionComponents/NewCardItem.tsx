@@ -15,19 +15,15 @@ export const NewCardItem = (props) => {
 
     const onCreate = (item) => {
         props.onCreate(item);
-        handleClose();
+        setOpen(false)
     }
-
-    const onClose = () => {
-        handleClose()
-    }
-
 
     return (
         <div>
             {(user && user.sub == props.userId || isAdmin(user)) &&
                 <Button onClick={handleOpen} component="div"
                         sx={{
+
                             border: '2px dashed grey',
                             maxWidth: 345,
                             boxShadow: 10,
@@ -35,7 +31,6 @@ export const NewCardItem = (props) => {
                             minHeight: 260,
                             height: '100%',
                             width: '100%',
-                            backgroundColor: 'ghostwhite',
                             '&:hover': {
                                 backgroundColor: 'lavender',
                                 opacity: [0.9, 0.8, 0.7],
@@ -57,9 +52,10 @@ export const NewCardItem = (props) => {
                 <div className='formik'>
                     <FormNewItems onCreate={onCreate}
                                   collectionId={props.collectionId}
-                                  onClose={onClose}
                                   collectionTitle={props.collectionTitle}
-                                  customField={props.customField}/>
+                                  customField={props.customField}
+                                  handleClose={handleClose}
+                    />
                 </div>
             </Drawer>
         </div>

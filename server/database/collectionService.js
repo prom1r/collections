@@ -1,4 +1,4 @@
-const {Collection, Item} = require('./init');
+const {Collection} = require('./init');
 
 const getTopCollections = async () => {
     const collection = await Collection.find();
