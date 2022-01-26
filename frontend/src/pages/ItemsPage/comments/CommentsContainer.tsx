@@ -23,15 +23,15 @@ export const CommentsContainer = (props) => {
     const [comments, setComments] = useState([]);
 
     useEffect(() => {
-        getCommentsItem(props.itemId).then((result) => {
-            setComments(result);
-        });
-        // const interval = setInterval(() => {
-        //     getCommentsItem(props.itemId).then((result) => {
-        //         setComments(result);
-        //     });
-        // },1000)
-        // return () => clearInterval(interval)
+        // getCommentsItem(props.itemId).then((result) => {
+        //     setComments(result);
+        // });
+        const interval = setInterval(() => {
+            getCommentsItem(props.itemId).then((result) => {
+                setComments(result);
+            });
+        },3000)
+        return () => clearInterval(interval)
 
     }, [])
 
