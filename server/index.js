@@ -32,7 +32,11 @@ const axios = require("axios");
 const bodyParser = require("body-parser");
 const uploadAzure = require("./blob/blob");
 const multer = require("multer");
-const { getAllTags, getTagCloud } = require("./database/tagsService");
+const {
+  getAllTags,
+  getTagCloud,
+  searchItemsByTag,
+} = require("./database/tagsService");
 const { isAdmin } = require("./database/user");
 const { getUsers } = require("./auth0/usersService");
 const { postNewComment, getComment } = require("./database/commentsScheme");
@@ -228,6 +232,12 @@ app.get("/tags", async (req, res) => {
   }
 
   res.json(response);
+});
+
+app.get("/tag/:tag", async (req, res) => {
+  const tag = req.params.tag;
+  const tags = await searchItemsByTag(tag);
+  res.json(tags);
 });
 
 app.get("/users", checkJwt, async (req, res) => {

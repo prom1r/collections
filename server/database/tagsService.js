@@ -9,5 +9,9 @@ const getTagCloud = async () => {
   const tagCloud = await Item.find({}, "tags");
   return tagCloud;
 };
+const searchItemsByTag = async (tag) => {
+  const tagCloud = await Item.find({ tags: tag });
+  return tagCloud;
+};
 
-module.exports = { getAllTags, getTagCloud };
+module.exports = { getAllTags, getTagCloud, searchItemsByTag };
