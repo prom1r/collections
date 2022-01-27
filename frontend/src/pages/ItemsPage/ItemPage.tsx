@@ -4,45 +4,47 @@ import { PageNotFound } from "../notFound/PageNotFound";
 import { ItemInfo } from "./ItemInfo";
 import { getMyItemId } from "../../api/itemsService";
 import Snackbar from "@mui/material/Snackbar";
-
+import { Helmet } from "react-helmet";
 
 export const ItemPage = () => {
-    const { id } = useParams();
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [item, setItem] = useState(null);
-    const [open, setOpen] = React.useState(false);
-    const handleClose = () => setOpen(false);
+  const { id } = useParams();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [item, setItem] = useState(null);
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => setOpen(false);
 
-    const onClose = (value) => {
-        setOpen(true);
-        setItem(value);
-    }
+  const onClose = (value) => {
+    setOpen(true);
+    setItem(value);
+  };
 
-    useEffect(() => {
-        getMyItemId(id).then((result) => {
-            setItem(result)
-            setIsLoaded(true);
-        })
-    }, [])
+  useEffect(() => {
+    getMyItemId(id).then((result) => {
+      setItem(result);
+      setIsLoaded(true);
+    });
+  }, []);
 
-    if (!isLoaded) {
-        return <div>Loading...</div>;
-    }
-    if (isLoaded && !item) {
-        return <PageNotFound/>
-    }
-    return (
-        <div>
-            <ItemInfo item={item} onClose={onClose}/>
-            <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                open={open}
-                autoHideDuration={2000}
-                onClose={handleClose}
-                message="Your collection has been successfully edit!"
-                key={'onCreate'}
-            />
-        </div>
-    );
-
-}
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+  if (isLoaded && !item) {
+    return <PageNotFound />;
+  }
+  return (
+    <div>
+      <Helmet>
+        <title>Item</title>
+      </Helmet>
+      <ItemInfo item={item} onClose={onClose} />
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        message="Your collection has been successfully edit!"
+        key={"onCreate"}
+      />
+    </div>
+  );
+};

@@ -181,7 +181,7 @@ export const CollectionHeader = (props) => {
             {title}
           </Typography>
 
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" textAlign="left">
             <ReactMarkdown>{description}</ReactMarkdown>
           </Typography>
           <Stack direction="row" spacing={2}>

@@ -33,8 +33,6 @@ export const TopCollections = (props) => {
         height: "100%",
         backgroundColor: "grow",
         marginLeft: "10px",
-        marginTop: "30px",
-
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",

@@ -22,7 +22,12 @@ export const RecentItems = () => {
   if (!items || items.length === 0) return <p>Нет данных.</p>;
   return (
     <>
-      <Box>
+      <Box
+        sx={{
+          width: "50%",
+          margin: "0 auto",
+        }}
+      >
         <TagsContainer tags={tags} />
       </Box>
 

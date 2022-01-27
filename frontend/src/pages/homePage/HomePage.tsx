@@ -19,7 +19,7 @@ export default function HomePage() {
           height: "auto",
         }}
       >
-        <h2>Top Collections</h2>
+        <h2 style={{ marginBottom: "10px" }}>Top Collections</h2>
         <TopCollections />
       </Box>
       <Box
@@ -31,7 +31,7 @@ export default function HomePage() {
           paddingBottom: "50px",
         }}
       >
-        <h2>Recent Items</h2>
+        <h2 style={{ marginBottom: "10px" }}>Recent Items</h2>
         <RecentItems />
       </Box>
     </div>
