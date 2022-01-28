@@ -38,7 +38,7 @@ const {
   searchItemsByTag,
 } = require("./database/tagsService");
 const { isAdmin } = require("./database/user");
-const { getUsers } = require("./auth0/usersService");
+const { getUsers, getUserRoles } = require("./auth0/usersService");
 const { postNewComment, getComment } = require("./database/commentsScheme");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -248,6 +248,14 @@ app.get("/tag/:tag", async (req, res) => {
 app.get("/users", checkJwt, async (req, res) => {
   if (isAdmin(req.user)) {
     const allUsers = await getUsers();
+    for (let user of allUsers) {
+      const roles = await getUserRoles(user.user_id);
+      const answer = roles.map(function (item) {
+        return item.name;
+      });
+      user.roles = answer;
+    }
+
     res.json(allUsers);
   }
 });

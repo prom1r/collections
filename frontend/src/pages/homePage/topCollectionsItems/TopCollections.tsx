@@ -8,14 +8,14 @@ import Paper from "@mui/material/Paper";
 import { Link } from "react-router-dom";
 import { TagsContainer } from "./Tagcloud";
 
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-  width: "250px",
-  boxShadow: "0px 0px 0px 0px",
-}));
+// const Item = styled(Paper)(({ theme }) => ({
+//   // ...theme.typography.body2,
+//   padding: theme.spacing(1),
+//   textAlign: "center",
+//   color: theme.palette.text.secondary,
+//   width: "250px",
+//   // boxShadow: "0px 0px 0px 0px",
+// }));
 
 export const TopCollections = (props) => {
   const [collections, setCollections] = useState([]);
@@ -31,7 +31,7 @@ export const TopCollections = (props) => {
       sx={{
         width: "0 auto",
         height: "100%",
-        backgroundColor: "grow",
+        // backgroundColor: "grow",
         marginLeft: "10px",
         display: "flex",
         flexDirection: "row",
@@ -41,18 +41,13 @@ export const TopCollections = (props) => {
         gap: "30px",
       }}
     >
-      {/*<Stack direction="row" spacing={2}>*/}
       {collections.map((item, index) => (
-        <Item key={index}>
-          <Link
-            style={{ textDecoration: "none" }}
-            to={`/collection/${item._id}`}
-          >
-            <CardCollection collection={item} />
-          </Link>
-        </Item>
+        // <Item key={index}>
+        <Link style={{ textDecoration: "none" }} to={`/collection/${item._id}`}>
+          <CardCollection collection={item} />
+        </Link>
+        // </Item>
       ))}
-      {/*</Stack>*/}
     </Box>
   );
 };
