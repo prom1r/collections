@@ -1,7 +1,7 @@
 const { Collection } = require("./init");
 
 const getTopCollections = async () => {
-  const collection = await Collection.find();
+  const collection = await Collection.find().sort({ itemCount: -1 }).limit(5);
   return collection;
 };
 

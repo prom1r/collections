@@ -189,15 +189,20 @@ app.get("/item/:id", async (req, res) => {
   res.json(myCollection);
 });
 
-app.delete("/item/:id", checkJwt, async (req, res) => {
-  const itemId = req.params.id;
-  const userAuth0Idd = req.user.sub;
-  const userItemId = await getIdDbItem(itemId).then((res) => res.userId);
-  if (userAuth0Idd == userItemId || isAdmin(req.user)) {
-    const response = deleteItem(itemId);
-    res.json(response);
+app.delete(
+  "/collection/:collectionId/item/:itemId",
+  checkJwt,
+  async (req, res) => {
+    const itemId = req.params.itemId;
+    const collectionId = req.params.collectionId;
+    const userAuth0Idd = req.user.sub;
+    const userItemId = await getIdDbItem(itemId).then((res) => res.userId);
+    if (userAuth0Idd == userItemId || isAdmin(req.user)) {
+      const response = deleteItem(itemId, collectionId);
+      res.json(response);
+    }
   }
-});
+);
 
 app.get("/items/tags", async (req, res) => {
   const tags = await getAllTags();

@@ -13,7 +13,7 @@ interface CardCollectionProps {
 
 export const CardCollection: FC<CardCollectionProps> = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { _id, title, srcImg, category } = props.collection;
+  const { _id, title, srcImg, itemCount } = props.collection;
 
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -67,7 +67,7 @@ export const CardCollection: FC<CardCollectionProps> = (props) => {
         onClose={handlePopoverClose}
         disableRestoreFocus
       >
-        <Typography sx={{ p: 1 }}>15 Items.</Typography>
+        <Typography sx={{ p: 1 }}>{itemCount} Items.</Typography>
       </Popover>
     </>
   );

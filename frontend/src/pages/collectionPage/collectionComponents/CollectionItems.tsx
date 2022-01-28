@@ -135,8 +135,8 @@ export const CollectionItems = (props) => {
               label="Date"
               onChange={handleChange}
             >
-              <MenuItem value={"1"}>Newest First</MenuItem>
-              <MenuItem value={"-1"}>Oldest First</MenuItem>
+              <MenuItem value={"-1"}>Newest First</MenuItem>
+              <MenuItem value={"1"}>Oldest First</MenuItem>
             </Select>
           </FormControl>
         </Box>

@@ -86,7 +86,7 @@ export const ItemInfo = (props) => {
 
   const handleDeleteCloseModal = async () => {
     const token = await getAccessTokenSilently();
-    const itemDelete = await deleteItemId(_id, token);
+    const itemDelete = await deleteItemId(_id, collectionId, token);
     navigate(`/collection/${collectionId}`);
     setOpenModal(false);
   };
