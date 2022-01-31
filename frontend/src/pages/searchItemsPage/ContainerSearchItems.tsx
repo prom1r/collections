@@ -7,7 +7,6 @@ import { searchItemsByTags } from "../../api/tagsService";
 
 export const ContainerSearchItems = (props) => {
   const [items, setItem] = useState([]);
-  const [itemsInTage, setItemsInTage] = useState([]);
 
   useEffect(() => {
     if (props.searchItems && !props.searchItemsInTag) {
@@ -15,7 +14,6 @@ export const ContainerSearchItems = (props) => {
         setItem(result);
       });
     } else if (props.searchItemsInTag && !props.searchItems) {
-      console.log("123");
       searchItemsByTags(props.searchItemsInTag).then((result) => {
         setItem(result);
       });

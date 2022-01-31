@@ -23,7 +23,7 @@ export const TableUsers = (props) => {
               <TableCell align="right">ID</TableCell>
               <TableCell align="right">Email</TableCell>
               <TableCell align="right">Role</TableCell>
-              <TableCell align="right">Data Registration</TableCell>
+              <TableCell align="right">Date Registration</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -39,9 +39,13 @@ export const TableUsers = (props) => {
                 <TableCell align="right">{user.email}</TableCell>
                 <TableCell align="right">
                   {hasAdminRole(user.roles) ? (
-                    <Chip color="primary" size="small" label="Admin" />
+                    <>
+                      <Chip color="primary" size="small" label="Admin" />
+                    </>
                   ) : (
-                    <Chip size="small" label="User" />
+                    <>
+                      <Chip size="small" label="User" />
+                    </>
                   )}
                 </TableCell>
                 <TableCell align="right">{user.created_at}</TableCell>

@@ -13,8 +13,8 @@ const getUsers = async () => {
   return await auth0.getUsers();
 };
 
-const assignRoles = async (userId) => {
-  await auth0.assignRolestoUser({ id: userId }, { roles: ["User"] });
+const assignRolesAdmin = async (userId) => {
+  return await auth0.assignRolestoUser({ id: userId }, { roles: ["Admin"] });
 };
 
 const getUserRoles = async (userId) => {
@@ -22,4 +22,4 @@ const getUserRoles = async (userId) => {
   return roles;
 };
 
-module.exports = { getUsers, getUserRoles, assignRoles };
+module.exports = { getUsers, getUserRoles };

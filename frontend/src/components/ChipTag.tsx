@@ -15,7 +15,6 @@ export const ChipTag = (props) => {
   const handleClick = () => {
     navigate(`/results/items?tag=${props.tag}`);
   };
-
   return (
     <Stack
       spacing={2}

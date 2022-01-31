@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 main()
-  .then(() => console.log("Connected Mongo"))
+  .then(() => console.log("Connected to Mongo"))
   .catch((err) => console.error(err));
 
 async function main() {

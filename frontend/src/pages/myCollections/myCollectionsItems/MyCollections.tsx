@@ -12,14 +12,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { PageNotFound } from "../../notFound/PageNotFound";
 import { Helmet } from "react-helmet";
 
-const Item = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-  maxWidth: "250px",
-  boxShadow: "0px 0px 0px 0px",
-}));
-
 export const MyCollections = (props) => {
   const [myCollections, setMyCollections] = useState([]);
   const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
@@ -72,14 +64,14 @@ export const MyCollections = (props) => {
           <title>My Collections</title>
         </Helmet>
         {myCollections.map((item) => (
-          <Item key={item._id}>
+          <Box key={item._id}>
             <Link
               style={{ textDecoration: "none" }}
               to={`/collection/${item._id}`}
             >
               <CardCollection collection={item} />
             </Link>
-          </Item>
+          </Box>
         ))}
 
         <NewCardCollection onCreate={handleCreate} />

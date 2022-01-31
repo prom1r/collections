@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const postNewItems = async (values, token) => {
   const response = await axios.post(
-    `${BACKEND_URL}/items`,
+    `${BACKEND_URL}/items/new`,
     { values },
     {
       headers: {
@@ -26,20 +26,20 @@ export const getMyItems = async (
   dateFrom = "",
   dateTo = ""
 ) => {
-  const apiUrl = `${BACKEND_URL}/collection/${id}/items/?date_sort=${sort}&date_from=${dateFrom}&date_to=${dateTo}`;
+  const apiUrl = `${BACKEND_URL}/collections/${id}/items/?date_sort=${sort}&date_from=${dateFrom}&date_to=${dateTo}`;
   const response = await axios.get(apiUrl);
   return response.data;
 };
 
 export const getMyItemId = async (id) => {
-  const apiUrl = `${BACKEND_URL}/item/${id}`;
+  const apiUrl = `${BACKEND_URL}/items/${id}`;
   const response = await axios.get(apiUrl);
   return response.data;
 };
 
 export const putUpdateItem = async (token, values, id) => {
   const response = await axios.put(
-    `${BACKEND_URL}/item/${id}`,
+    `${BACKEND_URL}/items/${id}`,
     { values },
     {
       headers: {
@@ -52,7 +52,7 @@ export const putUpdateItem = async (token, values, id) => {
 
 export const deleteItemId = async (itemId, collectionId, token) => {
   const response = await axios.delete(
-    `${BACKEND_URL}/collection/${collectionId}/item/${itemId}`,
+    `${BACKEND_URL}/collections/${collectionId}/item/${itemId}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

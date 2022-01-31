@@ -38,7 +38,6 @@ export const CollectionPage = () => {
   if (isLoaded && !collection) {
     return <PageNotFound />;
   }
-
   return (
     <div>
       <Helmet>

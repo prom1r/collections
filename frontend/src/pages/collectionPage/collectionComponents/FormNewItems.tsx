@@ -18,6 +18,8 @@ export const FormNewItems = (props) => {
   const [tags, setTags] = useState([]);
   const { getAccessTokenSilently, user } = useAuth0();
   const buttonName = props.item ? "Edit" : "Save";
+  const defaultImg =
+    "https://images.unsplash.com/photo-1619560820102-31f5b04c049a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80";
 
   useEffect(() => {
     getTags().then((result) => {
@@ -54,7 +56,7 @@ export const FormNewItems = (props) => {
       if (!props.item) {
         const date = new Date();
         values.collectionId = props.collectionId;
-        values.srcImg = url;
+        values.srcImg = url || defaultImg;
         values.collectionTitle = props.collectionTitle;
         values.date = date;
         values.userNickname = user.nickname;
@@ -62,6 +64,7 @@ export const FormNewItems = (props) => {
         const item = await postNewItems(values, token);
         props.onCreate(item);
       } else {
+        values.srcImg = url || props.item.srcImg;
         const token = await getAccessTokenSilently();
         const item = await putUpdateItem(token, values, props.item._id);
         props.onClose(item);

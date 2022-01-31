@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { TopCollections } from "./topCollectionsItems/TopCollections";
 import { RecentItems } from "./topCollectionsItems/RecentItems";
 import Box from "@mui/material/Box";

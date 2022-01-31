@@ -48,7 +48,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export const SearchItem = () => {
   let navigate = useNavigate();
-
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       navigate(`/results/items?search=${e.target.value}`);
@@ -62,7 +61,6 @@ export const SearchItem = () => {
         <SearchIcon />
       </SearchIconWrapper>
       <StyledInputBase
-        // onChange={onChange}
         onKeyDown={handleKeyDown}
         placeholder="Search…"
         inputProps={{ "aria-label": "search" }}

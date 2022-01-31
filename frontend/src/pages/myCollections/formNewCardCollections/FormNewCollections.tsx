@@ -94,12 +94,14 @@ export const FormNewCollections: React.FC<FormNewCollectionsProps> = (
   const onSubmit = async (values: Partial<Collection>) => {
     try {
       const token = await getAccessTokenSilently();
-      values.srcImg = url || defaultImg;
       if (!props.collection) {
+        values.srcImg = url || defaultImg;
+        values.itemCount = 0;
         values.userNickname = user.nickname;
         const item = await postNewCollections(token, values);
         props.onCreate(item);
       } else {
+        values.srcImg = url || props.collection.srcImg;
         const item = await putUpdateCollections(
           token,
           values,

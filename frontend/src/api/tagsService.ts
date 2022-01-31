@@ -13,7 +13,7 @@ export const getAllTags = async () => {
   return response.data;
 };
 export const searchItemsByTags = async (tag) => {
-  const apiUrl = `${BACKEND_URL}/tag/${tag}`;
+  const apiUrl = `${BACKEND_URL}/tags/${tag}`;
   const response = await axios.get(apiUrl);
   return response.data;
 };

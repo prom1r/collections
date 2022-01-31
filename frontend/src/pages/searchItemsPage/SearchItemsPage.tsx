@@ -13,7 +13,7 @@ export const SearchItemsPage = () => {
       <Helmet>
         <title>Search Item</title>
       </Helmet>
-      <h2>Search Results for {search}</h2>
+      <h2>Search Results for {search || tag}</h2>
       <ContainerSearchItems searchItems={search} searchItemsInTag={tag} />
     </>
   );

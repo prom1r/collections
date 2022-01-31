@@ -10,7 +10,6 @@ interface DateStringProps {
 
 export const DateView: React.FC<DateStringProps> = (props) => {
   let resultDate;
-
   if (!props.value) {
     const date = new Date();
     resultDate = format(new Date(date), "MM-dd-yyyy");

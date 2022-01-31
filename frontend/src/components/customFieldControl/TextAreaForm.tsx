@@ -1,14 +1,14 @@
 import React, { FC } from "react";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 
-interface TextareaFormmProps {
+interface TextareaFormProps {
   index: number;
   name: string;
   formik: any;
   values: string;
 }
 
-export const TextareaForm: React.FC<TextareaFormmProps> = (props) => {
+export const TextareaForm: React.FC<TextareaFormProps> = (props) => {
   return (
     <TextareaAutosize
       name={`customField.${props.index}.value`}
